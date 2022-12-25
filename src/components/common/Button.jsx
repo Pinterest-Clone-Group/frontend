@@ -13,11 +13,11 @@ const Button = ({ children, btnColor, btnSize, onClick, ...props }) => {
 const buttonProps = {
   small: {
     padding: '8px 13.5px',
-    minHeight: '38px',
+    height: '38px',
   },
   normal: {
     padding: '12px 16px',
-    minHeight: '48px',
+    height: '48px',
   },
   btnColor: {
     // background, hover, font-color
@@ -42,7 +42,7 @@ Button.defaultProps = {
 
 const ButtonLayout = styled.button`
   padding: ${(props) => buttonProps[props.btnSize].padding};
-  min-height: ${(props) => buttonProps[props.btnSize].minHeight};
+  height: ${(props) => buttonProps[props.btnSize].height};
   cursor: pointer;
   font-weight: 600;
   border-radius: 36px;
