@@ -22,4 +22,9 @@ body {
 
 p {
   margin: 0;
+  letter-spacing: 0.06em;
+}
+
+span {
+  letter-spacing: 0.06em;
 }
