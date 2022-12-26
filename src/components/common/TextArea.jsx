@@ -1,8 +1,10 @@
 import { Colors } from '../../styles';
 import styled from 'styled-components';
+import useElementResize from '../../hooks/useElementResize';
 
 const TextArea = ({ isValueValid, ...props }) => {
-  return <TextAreaLayout {...props} isValueValid={isValueValid} />;
+  const { ref } = useElementResize();
+  return <TextAreaLayout ref={ref} {...props} isValueValid={isValueValid} />;
 };
 
 const TextAreaLayout = styled.textarea`
@@ -15,6 +17,7 @@ const TextAreaLayout = styled.textarea`
   min-height: 40px;
   font-size: 16px;
   resize: none;
+  overflow-y: hidden;
   :focus {
     box-shadow: 0 0 0 5px #7fc1ff;
   }
