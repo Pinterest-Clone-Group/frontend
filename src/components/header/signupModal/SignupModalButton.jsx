@@ -9,7 +9,7 @@ import Button from '../../common/Button';
 import Logo from '../../common/Logo';
 import Modal from '../../common/Modal';
 
-const SignupModal = (args) => {
+const SignupModalButton = (args) => {
   const [visible, setVisible] = useState(false);
 
   return (
@@ -60,4 +60,4 @@ const SignupTextTitleBox = styled.h1`
   margin: 0px 0px 0px 0px;
 `;
 
-export default SignupModal;
+export default SignupModalButton;
