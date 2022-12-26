@@ -13,7 +13,7 @@ const ValidationText = ({ children, isValueValid }) => {
 
 const StyledValidationText = styled.div`
   display: flex;
-  align-items: center;
+  align-items: left;
   margin: 10px 0 12px 0;
   font-size: 12px;
   color: ${(props) => (props.isValueValid ? Colors.success : Colors.warning)};
