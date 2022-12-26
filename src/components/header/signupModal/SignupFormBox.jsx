@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-// import ValidationWarning from '../../common/icons/ValidationWarning';
 import ValidationText from '../../common/ValidationText';
 
 import { emailIdCheck, passwordCheck } from '../../../utils/validationCheck';
@@ -27,8 +26,6 @@ const SignupFormBox = () => {
   const [isUserName, setIsUserName] = useState(true);
 
   const onBlurEmialId = () => {
-    // const emailIdRegExp = /^[a-zA-Z0-9]+@[a-zA-Z0-9-]+\.+[a-zA-Z0-9-.]+$/;
-
     if (!emailIdCheck(emailId)) {
       setEmailIdMessage('올바른 이메일 주소가 아닙니다.');
       setIsEmailId(false);
@@ -42,10 +39,8 @@ const SignupFormBox = () => {
   };
 
   const onBlurPassword = () => {
-    // const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[0-9]).{6,20}$/;
-
     if (!passwordCheck(password)) {
-      setPasswordMessage('올바르지 않은 비밀번호를 입력했습니다. 다시 시도하거나 비밀번호 재설정하세요.');
+      setPasswordMessage('올바르지 않은 비밀번호를 입력했습니다.\n' + '다시 시도하거나 비밀번호 재설정하세요.');
       setIsPassword(false);
     }
 

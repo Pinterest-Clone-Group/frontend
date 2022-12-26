@@ -1,9 +1,9 @@
 import React from 'react';
 
 import SignupModal from './signupModal/SignupModalButton';
+import LoginModalButton from './loginModal/LoginModalButton';
 
 import styled from 'styled-components';
-import Button from '../common/Button';
 import { Colors } from '../../styles';
 import Logo from '../common/Logo';
 
@@ -17,9 +17,7 @@ const UnAuthorizedNavigtaionBar = () => {
         <LogoParagraph>Pinterest</LogoParagraph>
       </LeftSideBox>
       <RightSideBox>
-        <Button btnColor="brand" btnSize="small">
-          로그인
-        </Button>
+        <LoginModalButton />
         <SignupModal />
       </RightSideBox>
     </UnAuthorizedNavigtaionBarLayout>
