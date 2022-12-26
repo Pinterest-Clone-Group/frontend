@@ -1,7 +1,11 @@
+import React from 'react';
+
+import SignupModal from './signupModal/SignupModalButton';
+
+import styled from 'styled-components';
 import Button from '../common/Button';
 import { Colors } from '../../styles';
 import Logo from '../common/Logo';
-import styled from 'styled-components';
 
 // TODO: 로그인, 가입 페이지 이동시키기
 // TODO: 비로그인 사용자만 접근시키기
@@ -16,9 +20,7 @@ const UnAuthorizedNavigtaionBar = () => {
         <Button btnColor="brand" btnSize="small">
           로그인
         </Button>
-        <Button btnColor="grey" btnSize="small">
-          가입하기
-        </Button>
+        <SignupModal />
       </RightSideBox>
     </UnAuthorizedNavigtaionBarLayout>
   );

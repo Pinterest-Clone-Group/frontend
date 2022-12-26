@@ -10,7 +10,7 @@ const InputLayout = styled.input`
   height: ${(props) => props.height};
   border: 1.5px solid ${(props) => (props.isValueValid ? Colors.darkgrey : Colors.logo)};
   border-radius: 14px;
-  padding: 15px 12px;
+  padding: ${(props) => (props.padding ? props.padding : '15px 12px')};
   min-width: 120px;
   font-size: 16px;
   :focus {
