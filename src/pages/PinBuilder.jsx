@@ -16,13 +16,12 @@ const PinBuilder = () => {
 
   const [title, titleValid, handleChangeTitle] = useInput('', PIN_VALIDATION.title);
   const [content, contentValid, handleChangeContent] = useInput('', PIN_VALIDATION.content);
-  const [link, linkValid, handleChangeLink] = useInput('', PIN_VALIDATION.link);
 
   const { uploadFile } = useS3Upload();
   const navigate = useNavigate();
 
   const areInputValuesInValid = () => {
-    return !title || !contentValid.isOk || !titleValid.isOk || !linkValid.isOk;
+    return !title || !contentValid.isOk || !titleValid.isOk;
   };
 
   const handleSubmitButtonClick = () => {
@@ -37,7 +36,7 @@ const PinBuilder = () => {
     }
     uploadFile(imageFile, 'pin').then((res) => {
       pinApi
-        .upload({ title, content, image: res.Location, link })
+        .upload({ title, content, image: res.Location })
         .then(() => navigate('/'))
         .catch((err) => alert(err.errorMessage));
     });
@@ -70,13 +69,6 @@ const PinBuilder = () => {
               isValueInvalid={contentValid}
               value={content}
               maxSize={500}
-            />
-            <PinInput
-              style={{ marginTop: '80px' }}
-              placeholder="랜딩페이지 링크 추가"
-              value={link}
-              setValue={handleChangeLink}
-              isValueInvalid={linkValid}
             />
           </PinSubmitBox>
         </PinBuilderContentsBox>
