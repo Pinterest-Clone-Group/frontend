@@ -1,6 +1,6 @@
 import React from 'react';
 
-import SignupModal from './signupModal/SignupModalButton';
+import SignupModalButton from './signupModal/SignupModalButton';
 import LoginModalButton from './loginModal/LoginModalButton';
 
 import styled from 'styled-components';
@@ -18,7 +18,7 @@ const UnAuthorizedNavigtaionBar = () => {
       </LeftSideBox>
       <RightSideBox>
         <LoginModalButton />
-        <SignupModal />
+        <SignupModalButton />
       </RightSideBox>
     </UnAuthorizedNavigtaionBarLayout>
   );
