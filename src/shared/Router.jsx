@@ -6,6 +6,7 @@ import Users from '../pages/Users';
 import PinBuilder from '../pages/PinBuilder';
 import PinDetail from '../pages/PinDetail';
 import Pins from '../pages/Pins';
+import Profile from '../pages/Profile';
 import React from 'react';
 
 const Router = () => {
@@ -18,6 +19,7 @@ const Router = () => {
           <Route path="/pins/:id" element={<PinDetail />} />
           <Route path="/pin-builder" element={<PinBuilder />} />
           <Route path="/users/:id" element={<Users />} />
+          <Route path="/users/profile/:id" element={<Profile />} />
         </Routes>
       </Layout>
     </BrowserRouter>

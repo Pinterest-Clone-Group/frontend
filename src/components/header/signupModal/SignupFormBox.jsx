@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 
-import ValidationText from '../../common/ValidationText';
-
 import { emailIdCheck, passwordCheck } from '../../../utils/validationCheck';
 
 import styled from 'styled-components';
 import Button from '../../common/Button';
 import Input from '../../common/Input';
 import Label from '../../common/Label';
+import ValidationText from '../../common/ValidationText';
 
 const SignupFormBox = () => {
   // 아이디, 비밀번호, 이름 입력
