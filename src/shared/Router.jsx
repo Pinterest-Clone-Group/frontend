@@ -1,10 +1,13 @@
-import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-import Layout from './Layout';
 import Home from '../pages/Home';
-import Detail from '../pages/Detail';
+import Layout from './Layout';
+import Mypage from '../pages/Mypage';
 import Users from '../pages/Users';
+import PinBuilder from '../pages/PinBuilder';
+import PinDetail from '../pages/PinDetail';
+import Pins from '../pages/Pins';
+import React from 'react';
 
 const Router = () => {
   return (
@@ -12,7 +15,10 @@ const Router = () => {
       <Layout>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/:id" element={<Detail />} />
+          <Route path="/pins" element={<Pins />} />
+          <Route path="/pins/:id" element={<PinDetail />} />
+          <Route path="/pin-builder" element={<PinBuilder />} />
+          <Route path="/mypage" element={<Mypage />} />
           <Route path="/users/:id" element={<Users />} />
         </Routes>
       </Layout>
