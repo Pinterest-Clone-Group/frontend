@@ -3,11 +3,13 @@ import { Colors } from '../styles';
 import { PIN_VALIDATION } from '../constants/inputValidation';
 import PinImageUploader from '../components/pin/PinImageUploader';
 import PinInput from '../components/pin/PinInput';
+import pinApi from '../apis/pinApi';
 import styled from 'styled-components';
 import useInput from '../hooks/useInput';
+import { useNavigate } from 'react-router';
+import useS3Upload from '../hooks/useS3Upload';
 import { useState } from 'react';
 
-// TODO: 페이지 복잡도 개선을 위한 컴포넌트 분리 고려
 const PinBuilder = () => {
   const [imageUrl, setImageUrl] = useState();
   const [imageFile, setImageFile] = useState();
@@ -16,12 +18,15 @@ const PinBuilder = () => {
   const [content, contentValid, handleChangeContent] = useInput('', PIN_VALIDATION.content);
   const [link, linkValid, handleChangeLink] = useInput('', PIN_VALIDATION.link);
 
+  const { uploadFile } = useS3Upload();
+  const navigate = useNavigate();
+
   const areInputValuesInValid = () => {
     return !title || !contentValid.isOk || !titleValid.isOk || !linkValid.isOk;
   };
 
-  // TODO: 핀 등록 api 붙여 기능 구현
   const handleSubmitButtonClick = () => {
+    // TODO: image validation
     if (!imageFile) {
       alert('이미지를 필수로 등록해야 합니다.');
       return;
@@ -30,8 +35,12 @@ const PinBuilder = () => {
       alert('입력을 확인하세요');
       return;
     }
-    alert('등록완료');
-    imageFile;
+    uploadFile(imageFile, 'pin').then((res) => {
+      pinApi
+        .upload({ title, content, image: res.Location, link })
+        .then(() => navigate('/'))
+        .catch((err) => alert(err.errorMessage));
+    });
   };
 
   return (
