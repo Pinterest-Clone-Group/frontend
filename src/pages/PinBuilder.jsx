@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 import Button from '../components/common/Button';
 import { Colors } from '../styles';
+import PinImageUploader from '../components/pin/PinImageUploader';
 import PinInput from '../components/pin/PinInput';
 import styled from 'styled-components';
 
@@ -10,6 +11,8 @@ const PinBuilder = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [link, setLink] = useState('');
+  const [imageUrl, setImageUrl] = useState();
+  const [imageFile, setImageFile] = useState();
   const [isTitleInValid, setTitleIsInvalid] = useState(true);
   const [isContentInvalid, setIsContentInvalid] = useState(true);
   const [isLinkInvalid, setIsLinkInvalid] = useState(true);
@@ -25,6 +28,7 @@ const PinBuilder = () => {
       return;
     }
     alert('등록완료');
+    imageFile;
   };
 
   const changeLinkInvalidStateByInput = () => {
@@ -53,13 +57,7 @@ const PinBuilder = () => {
           </Button>
         </PinBuilderHeaderBox>
         <PinBuilderContentsBox>
-          <div>
-            <ImageUploadBox>
-              {/* TODO: 등록 이미지 미리보기, 등록된 이미지 삭제, 서버에 업로드 구현 */}
-              <div>클릭하여 이미지 업로드</div>
-              <p>권장사항: 10MB미만의 JPEG 파일</p>
-            </ImageUploadBox>
-          </div>
+          <PinImageUploader setImage={setImageUrl} setImageFile={setImageFile} image={imageUrl} />
           <PinSubmitBox>
             <PinInput
               style={{ fontSize: '36px', fontWeight: '700' }}
@@ -123,35 +121,6 @@ const PinBuilderContentsBox = styled.div`
   padding: 0 60px 60px 60px;
   display: flex;
   grid-column-gap: 30px;
-`;
-
-const ImageUploadBox = styled.div`
-  width: 320px;
-  padding: 16px;
-  background-color: ${Colors.lightgrey};
-  border-radius: 6px;
-  position: relative;
-  text-align: center;
-  font-size: 14px;
-
-  & > div {
-    width: 100%;
-    min-height: 400px;
-    border: 1.5px dashed ${Colors.darkgrey};
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: 500;
-    font-size: 16px;
-  }
-  & > p {
-    position: absolute;
-    width: 100%;
-    bottom: 0;
-    left: 0;
-    padding-bottom: 30px;
-    color: rgba(18, 18, 18, 0.7);
-  }
 `;
 
 const PinSubmitBox = styled.div`
