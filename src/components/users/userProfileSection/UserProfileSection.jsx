@@ -22,8 +22,6 @@ const UserProfileSection = () => {
 const UserProfileLayout = styled.div`
   width: 100%;
   height: 300px;
-  border: 2px solid;
-  border-color: black;
   display: flex;
   flex-direction: column;
   justify-content: center;
