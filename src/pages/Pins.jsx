@@ -29,9 +29,7 @@ export default function App() {
   const { pins, isLoading, error } = useSelector((state) => state.pinSlice);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const isToken = Boolean(localStorage.getItem('accessToken'));
-
   useEffect(() => {
     // 로그인한 상태인 경우에만!
     if (isToken !== true) {
@@ -49,7 +47,6 @@ export default function App() {
     return <div>...loading</div>;
   }
   if (error) {
-    console.log(error);
     return <div>error</div>;
   }
   return (
@@ -65,7 +62,7 @@ export default function App() {
         }}
       >
         {items.map((item) => (
-          <Item data-grid-groupkey={item.groupKey} key={item.key} pin={pins[item.key]} />
+          <Item data-grid-groupkey={item.groupKey} key={item.key} pin={{ ...pins[item.key] }} />
         ))}
       </MasonryInfiniteGrid>
     </PinsLayout>

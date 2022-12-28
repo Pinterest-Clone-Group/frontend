@@ -27,7 +27,7 @@ export const __signup = createAsyncThunk('signup', async (payload, thunkAPI) => 
 export const __login = createAsyncThunk('login', async (payload, thunkAPI) => {
   try {
     const response = await userApi.login(payload);
-    localStorage.setItem('accessToken', response.data.accessToken.split('%')[1]);
+    localStorage.setItem('accessToken', response.data.accessToken.split(' ')[1]);
     localStorage.setItem('refreshToken', response.data.refreshToken);
     alert('로그인 성공!');
     window.location.reload();
