@@ -1,19 +1,29 @@
-import React, { useEffect } from 'react';
-import { __getUserInfo, login } from '../../redux/modules/userSlice';
+import React, { useEffect, useState } from 'react';
+import { __getUserInfo, login, logout } from '../../redux/modules/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
+import Button from '../common/Button';
 import { Colors } from '../../styles';
+import Icon from '../common/icons/Icon';
+import IconButton from '../common/IconButton';
 import LoginModalButton from './loginModal/LoginModalButton';
 import Logo from '../common/Logo';
-import LogoutButton from './logoutButton/LogoutButton';
+import MyInfoBox from './MyInfoBox';
+import MyInfoSelectOption from './MyInfoSelectOption';
+import PinSearchBox from './PinSearchBox';
 import ProfileImage from '../common/ProfileImage';
+import SelectBox from '../common/SelectBox';
 import SignupModalButton from './signupModal/SignupModalButton';
 import { getUserIdFromAccessToken } from '../../utils/jwtHandler';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 const NavigtaionBar = () => {
-  const { isLogined } = useSelector((state) => state.userSlice);
+  const { userInfo, isLogined } = useSelector((state) => state.userSlice);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [myInfoSelectBoxVisible, setMyInfoSelectBoxVisible] = useState(false);
+
   const accessToken = localStorage.getItem('accessToken');
   useEffect(() => {
     if (accessToken) {
@@ -23,17 +33,54 @@ const NavigtaionBar = () => {
       localStorage.setItem('isLogined', true);
     }
   }, [isLogined]);
+
+  const handleLogoutClick = () => {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('isLogined');
+    dispatch(logout());
+    navigate('/');
+  };
+
   return (
     <NavigtaionBarLayout>
       <LeftSideBox>
-        <Logo />
-        <LogoParagraph>Pinterest</LogoParagraph>
+        <Logo size={isLogined ? 'small' : 'medium'} />
+        {!isLogined && <LogoParagraph onClick={() => navigate('/')}>Pinterest</LogoParagraph>}
+        {isLogined && (
+          <div>
+            <NavigationButton onClick={() => navigate('/pins')}>홈</NavigationButton>
+            <span style={{ fontWeight: 'bold', cursor: 'pointer' }} onClick={() => navigate('/pin-builder')}>
+              만들기
+            </span>
+          </div>
+        )}
       </LeftSideBox>
-
+      {isLogined && <PinSearchBox />}
       {isLogined ? (
         <RightSideBox>
-          <ProfileImage />
-          <LogoutButton />
+          <ProfileImage imageUrl={userInfo?.image} />
+          <IconButton
+            icon={<Icon.More />}
+            onClick={() =>
+              setTimeout(() => {
+                setMyInfoSelectBoxVisible(!myInfoSelectBoxVisible);
+              }, [300])
+            }
+          />
+          <SelectBox
+            visible={myInfoSelectBoxVisible}
+            onClose={() => setMyInfoSelectBoxVisible(false)}
+            boxMarginTop={46}
+            location={-290}
+          >
+            <MyInfoSelectOption labelText="현재 로그인 계정">
+              {userInfo && <MyInfoBox userInfo={userInfo} onClose={() => setMyInfoSelectBoxVisible(false)} />}
+            </MyInfoSelectOption>
+            <MyInfoSelectOption labelText="내 계정">
+              <div onClick={handleLogoutClick}>로그아웃</div>
+            </MyInfoSelectOption>
+          </SelectBox>
         </RightSideBox>
       ) : (
         <RightSideBox>
@@ -66,11 +113,24 @@ const LogoParagraph = styled.p`
   letter-spacing: -0.06em;
   line-height: 150%;
   font-weight: 600;
+  cursor: pointer;
 `;
 
 const RightSideBox = styled.div`
   display: flex;
   grid-column-gap: 8px;
+  padding-right: 20px;
+  padding-left: 60px;
+`;
+
+const NavigationButton = styled(Button)`
+  background-color: ${Colors.black};
+  margin: 0 16px;
+  width: 60px;
+  font-size: 16px;
+  :hover {
+    background-color: ${Colors.black};
+  }
 `;
 
 export default NavigtaionBar;
