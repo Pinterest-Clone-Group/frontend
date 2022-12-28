@@ -88,11 +88,13 @@ const DetailsBox = styled.div`
 `;
 
 const DetailsImageBox = styled.div`
+  padding: 20px;
   width: 50%;
-  border-radius: 36px 0px 0px 36px;
+  height: auto;
+  border-radius: 36px;
   & > img {
     width: 100%;
-    border-radius: 36px 0px 0px 36px;
+    border-radius: 36px;
     max-height: 1000px;
   }
 `;
