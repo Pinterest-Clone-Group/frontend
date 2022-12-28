@@ -1,7 +1,5 @@
 import React from 'react';
 
-// redux
-
 // share
 import Router from './shared/Router';
 
