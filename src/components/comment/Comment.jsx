@@ -45,7 +45,7 @@ const Comment = ({ pinId, commentId, parentCommentId, name, image, comment, like
     if (!replyComment) {
       return;
     }
-    commentApi.register({ pinId, comment: replyComment, parentCommentId }).then(() => {
+    commentApi.register({ pinId, comment: replyComment, parentCommentId: commentId }).then(() => {
       setModifyBoxVisible(false);
       setReplyVisible(false);
       dispatch(__getCommentList({ pinId }));
