@@ -4,7 +4,7 @@ import userApi from '../../apis/userApi';
 
 const initialState = {
   userInfo: null,
-  pinsArrs: [],
+  pinsArrs: [{}],
   response: {},
   isLoading: false,
   error: null,

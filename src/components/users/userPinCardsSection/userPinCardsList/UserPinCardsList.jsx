@@ -9,7 +9,7 @@ const UserPinCardsList = () => {
   const { pinsArrs } = useSelector((state) => state.userSlice);
   console.log(pinsArrs);
 
-  if (pinsArrs === []) {
+  if (pinsArrs === [{}]) {
     return <div>...loading</div>;
   }
 
