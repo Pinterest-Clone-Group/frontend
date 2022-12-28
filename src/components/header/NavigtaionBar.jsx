@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { __getUserInfo, login, logout } from '../../redux/modules/userSlice';
+import { __getLikedPins, __getUserInfo, login, logout } from '../../redux/modules/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Button from '../common/Button';
@@ -33,6 +33,12 @@ const NavigtaionBar = () => {
       localStorage.setItem('isLogined', true);
     }
   }, [isLogined]);
+
+  useEffect(() => {
+    if (userInfo) {
+      dispatch(__getLikedPins({ userId: userInfo.userId }));
+    }
+  }, [userInfo]);
 
   const handleLogoutClick = () => {
     localStorage.removeItem('accessToken');

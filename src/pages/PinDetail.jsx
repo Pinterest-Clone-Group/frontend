@@ -7,26 +7,30 @@ import CommentUpload from '../components/comment/CommentUpload';
 import Icon from '../components/common/icons/Icon';
 import IconButton from '../components/common/IconButton';
 import PinWriter from '../components/pin/PinWriter';
+import { __getLikedPins } from '../redux/modules/userSlice';
 import { __getPinDetailById } from '../redux/modules/pinSlice';
+import pinApi from '../apis/pinApi';
 import styled from 'styled-components';
 import { useParams } from 'react-router';
 
 const PinDetail = () => {
   const { id } = useParams();
-  const { pin, error } = useSelector((state) => state.pinSlice);
+  const { pin } = useSelector((state) => state.pinSlice);
+  const { likedPins, userInfo } = useSelector((state) => state.userSlice);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(__getPinDetailById({ id }));
   }, []);
 
-  if (error) {
-    console.log(error);
-    return <div>error</div>;
-  }
+  const handlePutPinLikeClick = () => {
+    pinApi.putLike(pin?.pinId).then(() => {
+      dispatch(__getLikedPins({ userId: userInfo.userId }));
+    });
+  };
   return (
     <>
-      {pin && (
+      {pin && likedPins && (
         <PinDetailLayout>
           <DetailsBox>
             <DetailsImageBox>
@@ -38,7 +42,13 @@ const PinDetail = () => {
                   <IconButton icon={<Icon.Download />} />
                 </div>
                 <div>
-                  <Button>저장</Button>
+                  {likedPins.some((pin) => pin.pinId === parseInt(id)) ? (
+                    <Button btnColor="grey" onClick={handlePutPinLikeClick}>
+                      즐겨찾기 해제
+                    </Button>
+                  ) : (
+                    <Button onClick={handlePutPinLikeClick}>즐겨찾기 등록</Button>
+                  )}
                 </div>
               </div>
               <div></div>
