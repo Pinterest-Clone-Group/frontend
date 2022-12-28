@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import userApi from '../apis/userApi';
-
-import UnAuthorizedNavigtaionBar from '../components/header/UnAuthorizedNavigtaionBar';
+import NavigtaionBar from '../components/header/NavigtaionBar';
+import React from 'react';
 
 function Layout({ children }) {
   const navigate = useNavigate();
@@ -34,7 +34,7 @@ function Layout({ children }) {
 
   return (
     <div>
-      <UnAuthorizedNavigtaionBar />
+      <NavigtaionBar />
       <div>{children}</div>
     </div>
   );
