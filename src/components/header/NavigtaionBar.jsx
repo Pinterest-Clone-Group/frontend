@@ -34,6 +34,14 @@ const NavigtaionBar = () => {
     }
   }, [isLogined]);
 
+  // TODO: 인가 오류 401로 통일되고 refresh 재인가 api있으면 필요 X
+  useEffect(() => {
+    if (!userInfo && isLogined) {
+      dispatch(logout());
+      localStorage.clear();
+    }
+  }, [userInfo]);
+
   const handleLogoutClick = () => {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
