@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { __getUserInfo, login } from '../../redux/modules/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Colors } from '../../styles';
 import LoginModalButton from './loginModal/LoginModalButton';
@@ -9,9 +10,9 @@ import ProfileImage from '../common/ProfileImage';
 import SignupModalButton from './signupModal/SignupModalButton';
 import { getUserIdFromAccessToken } from '../../utils/jwtHandler';
 import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
 
-const NavigtaionBar = ({ isLogined }) => {
+const NavigtaionBar = () => {
+  const { isLogined } = useSelector((state) => state.userSlice);
   const dispatch = useDispatch();
   const accessToken = localStorage.getItem('accessToken');
   useEffect(() => {
