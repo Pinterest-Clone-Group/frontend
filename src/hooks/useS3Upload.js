@@ -24,14 +24,29 @@ const useS3Upload = () => {
         Bucket: process.env.REACT_APP_S3_BUCKET,
         Body: file, // 업로드할 파일 객체
         ContentType: file.type,
-        Key: 'data/' + dir + '/' + Date.now() + file.type,
+        Key: 'data/' + dir + '/' + Date.now() + '.' + file.name.split('.').pop(),
       },
     });
 
     const promise = upload.promise();
     return promise;
   };
-  return { uploadFile, resultUrl, clearResult };
+
+  const uploadProfile = (file, id) => {
+    const upload = new AWS.S3.ManagedUpload({
+      params: {
+        Bucket: process.env.REACT_APP_S3_BUCKET,
+        Body: file, // 업로드할 파일 객체
+        ContentType: file.type,
+        Key: 'data/profile/' + id + '.' + file.name.split('.').pop(),
+      },
+    });
+
+    const promise = upload.promise();
+    return promise;
+  };
+
+  return { uploadFile, uploadProfile, resultUrl, clearResult };
 };
 
 export default useS3Upload;

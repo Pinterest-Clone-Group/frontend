@@ -1,11 +1,9 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-
-import ProfileImageUpdate from '../components/users/profileUpdate/ProfileImageUpdate';
-import ProfileDataUpdateForm from '../components/users/profileUpdate/ProfileDataUpdateForm';
-
-import styled from 'styled-components';
 import { Colors } from '../styles';
+import ProfileDataUpdateForm from '../components/users/profileUpdate/ProfileDataUpdateForm';
+import ProfileImageUpdate from '../components/users/profileUpdate/ProfileImageUpdate';
+import React from 'react';
+import styled from 'styled-components';
+import { useSelector } from 'react-redux';
 
 const Profile = () => {
   const { userInfo } = useSelector((state) => state.userSlice);
