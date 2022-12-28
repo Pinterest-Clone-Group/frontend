@@ -13,4 +13,5 @@ export const Colors = Object.freeze({
   lightgrey: '#EFEFEF',
   iconHover: '#F0F0F0',
   white: '#FFFFFF',
+  kakao: '#ffe812',
 });
