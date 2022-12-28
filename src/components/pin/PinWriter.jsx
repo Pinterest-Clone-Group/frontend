@@ -3,16 +3,14 @@ import ProfileImage from '../common/ProfileImage';
 import styled from 'styled-components';
 
 // TODO: 현재 이용자의 글쓴이 팔로우 상태에 따라 팔로우/언팔로우  버튼이 활성화된다.
-const PinWriter = () => {
+const PinWriter = ({ pin }) => {
+  console.log(pin);
   return (
     <PinWriterLayout>
       <WriterBox>
-        <ProfileImage
-          size={50}
-          imageUrl="https://i.pinimg.com/75x75_RS/a6/41/49/a64149b25ea164be8052e5219baced98.jpg"
-        />
+        <ProfileImage size={50} imageUrl={pin.userImage} />
         <WriterInfoBox>
-          <p style={{ fontWeight: '600' }}>FCB Fanboy</p>
+          <p style={{ fontWeight: '600' }}>{pin.name}</p>
           <p style={{ opacity: 0.7 }}>팔로워 1,555명</p>
         </WriterInfoBox>
       </WriterBox>
