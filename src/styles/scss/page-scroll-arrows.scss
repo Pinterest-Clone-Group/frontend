@@ -1,0 +1,67 @@
+@keyframes up-down-animation {
+  0% {
+    transform: translateY(10px);
+  }
+  100% {
+    transform: translateY(-10px);  
+  }
+}
+
+.page-scroll-arrow-bottom {
+  height: 180px;
+  max-height: 20%;
+  width: 100%;
+  
+  background-image: linear-gradient(rgba(255, 255, 255, 0), rgb(255, 255, 255));
+  opacity: 1;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  
+  .arrow-button {
+    opacity: 1;
+    z-index: 1;
+    
+    bottom: 32px;
+    position: fixed;        
+    
+    pointer-events: auto;
+    
+    border-radius: 50%;
+    border-style: none;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    height: 50px;
+    width: 50px;
+    
+    outline: none;
+    
+    cursor: pointer;
+
+    animation: 1s up-down-animation ease-in-out infinite alternate-reverse both;
+  }
+}
+
+.arrow-scroll-down-blue {
+  background-color: $blue !important;
+}
+
+.arrow-scroll-down-green-light {
+  background-color: $green-light !important;
+}
+
+.arrow-scroll-down-yellow {
+  background-color: $yellow !important;
+}
+
+.arrow-scroll-down-green-dark {
+  background-color: $green-dark !important;
+}
