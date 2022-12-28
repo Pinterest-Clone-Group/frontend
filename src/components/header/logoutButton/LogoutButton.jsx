@@ -1,17 +1,17 @@
-import React from 'react';
-
-import { useNavigate } from 'react-router-dom';
-
 import Button from '../../common/Button';
+import React from 'react';
+import { logout } from '../../../redux/modules/userSlice';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const LogoutButton = () => {
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const handleLogout = () => {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
+    dispatch(logout());
     navigate('/');
-    window.location.reload();
   };
 
   return (

@@ -1,11 +1,10 @@
+import NavigtaionBar from '../components/header/NavigtaionBar';
 import React from 'react';
-
-import UnAuthorizedNavigtaionBar from '../components/header/UnAuthorizedNavigtaionBar';
 
 function Layout({ children }) {
   return (
     <div>
-      <UnAuthorizedNavigtaionBar />
+      <NavigtaionBar />
       <div>{children}</div>
     </div>
   );
