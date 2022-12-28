@@ -1,28 +1,40 @@
 import { Colors } from '../../styles';
+import CommentInput from './CommentInput';
+import CommentInputBox from './CommentInputBox';
 import Icon from '../common/icons/Icon';
 import IconButton from '../common/IconButton';
 import ProfileImage from '../common/ProfileImage';
+import { __getCommentList } from '../../redux/modules/commentSlice';
+import commentApi from '../../apis/commentApi';
 import styled from 'styled-components';
-import { useRef } from 'react';
+import { useDispatch } from 'react-redux';
+import { useState } from 'react';
 
-const CommentUpload = () => {
-  const commentRef = useRef();
+const CommentUpload = ({ pinId }) => {
+  const dispatch = useDispatch();
+  const [comment, setComment] = useState('');
 
-  const handleCommentInputBoxClick = () => {
-    const style = commentRef.current.style;
-    if (style.backgroundColor === 'white') {
-      style.backgroundColor = Colors.grey;
+  const handleCommentSubmitClick = () => {
+    if (!comment) {
       return;
     }
-    style.backgroundColor = 'white';
+    commentApi.register({ pinId, comment }).then(() => {
+      setComment('');
+      dispatch(__getCommentList({ pinId }));
+    });
   };
 
   return (
     <CommentUploadLayout>
       <ProfileImage size={50} />
-      <CommentInputBox ref={commentRef} onClick={handleCommentInputBoxClick}>
-        <SubmitButton icon={<Icon.Submit />} />
-        <CommentInput placeholder="댓글 추가" type="text" />
+      <CommentInputBox>
+        <SubmitButton icon={<Icon.Submit />} onClick={handleCommentSubmitClick} />
+        <CommentInput
+          placeholder="댓글 추가"
+          type="text"
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
+        />
       </CommentInputBox>
     </CommentUploadLayout>
   );
@@ -32,36 +44,6 @@ const CommentUploadLayout = styled.div`
   display: flex;
   grid-column-gap: 10px;
   padding: 30px 60px 30px 10px;
-`;
-
-const CommentInputBox = styled.div`
-  display: block;
-  position: relative;
-  width: 100%;
-  height: 48px;
-  border-radius: 24px;
-  border: 0 solid;
-  padding-left: 15px;
-  padding-right: 15px;
-  border: 1.5px solid ${Colors.grey};
-  background-color: ${Colors.grey};
-`;
-
-const CommentInput = styled.input`
-  height: 48px;
-  min-width: 300px;
-  border-radius: 24px;
-  border: 0 solid;
-  padding-left: 8px;
-  background-color: rgba(0, 0, 0, 0);
-  text-decoration: none;
-  cursor: pointer;
-  :focus {
-    cursor: text;
-    text-decoration: none;
-    border: none;
-    outline: 0 solid;
-  }
 `;
 
 const SubmitButton = styled(IconButton)`

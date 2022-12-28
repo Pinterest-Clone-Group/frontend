@@ -45,15 +45,15 @@ const PinDetail = () => {
               <DetailMainTextBox>
                 <h1>{pin.title}</h1>
                 <p>{pin.content}</p>
-                <PinWriter />
-                <CommentList />
+                <PinWriter pin={pin} />
+                <CommentList pinId={pin.pinId} />
               </DetailMainTextBox>
             </DetailsContentsBox>
           </DetailsBox>
           <CommentBox>
             <div style={{ width: '50%' }}>&nbsp;</div>
             <div style={{ width: '50%' }}>
-              <CommentUpload />
+              <CommentUpload pinId={pin.pinId} />
             </div>
           </CommentBox>
         </PinDetailLayout>
