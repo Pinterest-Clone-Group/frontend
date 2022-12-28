@@ -22,8 +22,6 @@ function Layout({ children }) {
           localStorage.setItem('accesstoken', response.data.accesstoken);
           localStorage.setItem('refreshtoken', response.data.refreshtoken);
 
-          // dispatch(setLogin(true));
-
           navigate('/');
         } catch (err) {
           console.error(err);

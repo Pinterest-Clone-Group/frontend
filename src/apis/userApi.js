@@ -13,6 +13,8 @@ const userApi = {
   getUserInfo: (userId) => authInstance.get(USER_API + '/' + userId),
   // 회원 정보 수정
   updateUserInfo: ({ userId, name, userName }) => authInstance.put(USER_API + '/' + userId, { name, userName }),
+  // 회원이 작성한 핀 조회
+  getPinsMadeByUser: (userId) => authInstance.get(USER_API + '/' + userId + '/pins'),
 };
 
 export default userApi;

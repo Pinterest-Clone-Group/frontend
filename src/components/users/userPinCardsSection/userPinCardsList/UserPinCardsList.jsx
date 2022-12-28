@@ -1,17 +1,21 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 import PinCard from './PinCard';
 
 import styled from 'styled-components';
-// import { Colors } from '../../../styles';
 
 const UserPinCardsList = () => {
-  const arrs = [
-    { id: 1, thumbnail: 'card1image', name: 'card1' },
-    { id: 2, thumbnail: 'card2image', name: 'card2' },
-    { id: 3, thumbnail: 'card3image', name: 'card3' },
-  ];
-  const handlePinCardsLIst = arrs.map((arr) => <PinCard key={arr.id} thumbnail={arr.thumbnail} name={arr.name} />);
+  const { pinsArrs } = useSelector((state) => state.userSlice);
+  console.log(pinsArrs);
+
+  if (pinsArrs === []) {
+    return <div>...loading</div>;
+  }
+
+  const handlePinCardsLIst = pinsArrs.map((pinsArr) => (
+    <PinCard key={pinsArr.pinId} thumbnail={pinsArr.image} title={pinsArr.title} />
+  ));
 
   return <UserPinCardsListsLayout>{handlePinCardsLIst}</UserPinCardsListsLayout>;
 };
