@@ -25,12 +25,13 @@ const buttonProps = {
     grey: [Colors.grey, Colors.darkgrey, Colors.black],
     facebook: [Colors.facebook, Colors.facebook, Colors.white],
     white: [Colors.white, Colors.white, Colors.black],
+    kakao: [Colors.kakao, Colors.kakao, Colors.black],
   },
 };
 
 Button.propTypes = {
   children: PropTypes.node.isRequired,
-  btnColor: PropTypes.oneOf(['brand', 'grey', 'facebook', 'white']),
+  btnColor: PropTypes.oneOf(['brand', 'grey', 'facebook', 'white', 'kakao']),
   btnSize: PropTypes.oneOf(['small', 'normal']),
   onClick: PropTypes.func,
 };
