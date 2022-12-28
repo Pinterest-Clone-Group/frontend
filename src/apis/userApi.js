@@ -15,6 +15,8 @@ const userApi = {
   updateUserInfo: ({ userId, name, userName }) => authInstance.put(USER_API + '/' + userId, { name, userName }),
   // 회원이 작성한 핀 조회
   getPinsMadeByUser: (userId) => authInstance.get(USER_API + '/' + userId + '/pins'),
+  // 회원이 즐겨찾기한 핀 목록
+  getLikedPinsByUserId: (userId) => authInstance.get(USER_API + '/' + userId + '/likes'),
 };
 
 export default userApi;

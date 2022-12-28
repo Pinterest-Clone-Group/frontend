@@ -15,6 +15,7 @@ const pinApi = {
   update: ({ pinId, title, content }) => authInstance.put(PIN_API + '/' + pinId, { title, content }),
   // 핀 삭제
   delete: (pinId) => authInstance.delete(PIN_API + '/' + pinId),
+  putLike: (pinId) => authInstance.put(PIN_API + '/' + pinId + '/likes'),
 };
 
 export default pinApi;
