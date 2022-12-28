@@ -27,6 +27,13 @@ const PinUpdateModal = ({ visible, onClose, pin }) => {
     }
   };
 
+  const handlePinDeleteClick = () => {
+    pinApi.delete(pin.pinId).then((res) => {
+      alert(res.data.message);
+      onClose();
+    });
+  };
+
   return (
     <Modal visible={visible} onClose={onClose} hasCloseIcon={false} width={747}>
       <div style={{ maxHeight: '70vh', overflow: 'auto' }}>
@@ -69,7 +76,7 @@ const PinUpdateModal = ({ visible, onClose, pin }) => {
       <br /> <br />
       <ButtonsGridBox>
         <div>
-          <Button btnColor="grey" btnSize="small">
+          <Button btnColor="grey" btnSize="small" onClick={handlePinDeleteClick}>
             삭제
           </Button>
         </div>
