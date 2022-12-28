@@ -29,14 +29,7 @@ const useS3Upload = () => {
     });
 
     const promise = upload.promise();
-    promise.then(
-      function (data) {
-        setResultUrl(data.Location);
-      },
-      function (err) {
-        console.log(err);
-      },
-    );
+    return promise;
   };
   return { uploadFile, resultUrl, clearResult };
 };

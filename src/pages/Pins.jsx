@@ -1,9 +1,12 @@
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+
 import { MasonryInfiniteGrid } from '@egjs/react-infinitegrid';
 import PinCard from '../components/pin/PinCard';
+import { __getPinList } from '../redux/modules/pinModule';
+import pinApi from '../apis/pinApi';
 import styled from 'styled-components';
-import { useState } from 'react';
 
-// TODO: 임시 UI구성동작을 api로 대체
 function getItems(nextGroupKey, count) {
   const nextItems = [];
   const nextKey = nextGroupKey * count;
@@ -14,28 +17,43 @@ function getItems(nextGroupKey, count) {
   return nextItems;
 }
 
-const Item = ({ num }) => (
+const Item = ({ pin }) => (
   <div>
-    <PinCard
-      imageUrl={`https://naver.github.io/egjs-infinitegrid/assets/image/${(num % 33) + 1}.jpg`}
-      nickname={'nickname'}
-    />
+    <PinCard id={pin.pinId} imageUrl={pin.image} nickname={pin.name} profileUrl={pin.userImage} />
   </div>
 );
 
+// TODO: 이미지 lazyloading 고려
 export default function App() {
+  const { pins, isLoading, error } = useSelector((state) => state.pins);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(__getPinList({ api: pinApi.getAll }));
+  }, []);
+
   const [items, setItems] = useState(() => getItems(0, 10));
+  if (isLoading) {
+    return <div>...loading</div>;
+  }
+  if (error) {
+    console.log(error);
+    return <div>error</div>;
+  }
   return (
     <PinsLayout>
       <MasonryInfiniteGrid
         gap={3}
         onRequestAppend={(e) => {
           const nextGroupKey = (+e.groupKey || 0) + 1;
+          if (nextGroupKey >= parseInt(pins.length / 10)) {
+            return;
+          }
           setItems([...items, ...getItems(nextGroupKey, 10)]);
         }}
       >
         {items.map((item) => (
-          <Item data-grid-groupkey={item.groupKey} key={item.key} num={item.key} />
+          <Item data-grid-groupkey={item.groupKey} key={item.key} pin={pins[item.key]} />
         ))}
       </MasonryInfiniteGrid>
     </PinsLayout>

@@ -1,52 +1,64 @@
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
 import Button from '../components/common/Button';
 import CommentList from '../components/comment/CommentList';
 import CommentUpload from '../components/comment/CommentUpload';
 import Icon from '../components/common/icons/Icon';
 import IconButton from '../components/common/IconButton';
 import PinWriter from '../components/pin/PinWriter';
-import React from 'react';
+import { __getPinDetailById } from '../redux/modules/pinModule';
 import styled from 'styled-components';
+import { useParams } from 'react-router';
 
 const PinDetail = () => {
+  const { id } = useParams();
+  const { pin, error } = useSelector((state) => state.pins);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(__getPinDetailById({ id }));
+  }, []);
+
+  if (error) {
+    console.log(error);
+    return <div>error</div>;
+  }
   return (
-    <PinDetailLayout>
-      <DetailsBox>
-        <DetailsImageBox>
-          <img src="https://i.pinimg.com/564x/da/d6/86/dad686b244af0f43dabd33f27c3119fc.jpg"></img>
-        </DetailsImageBox>
-        <DetailsContentsBox>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <div>
-              <IconButton icon={<Icon.Download />} />
+    <>
+      {pin && (
+        <PinDetailLayout>
+          <DetailsBox>
+            <DetailsImageBox>
+              <img src={pin.image}></img>
+            </DetailsImageBox>
+            <DetailsContentsBox>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div>
+                  <IconButton icon={<Icon.Download />} />
+                </div>
+                <div>
+                  <Button>저장</Button>
+                </div>
+              </div>
+              <div></div>
+              <DetailMainTextBox>
+                <h1>{pin.title}</h1>
+                <p>{pin.content}</p>
+                <PinWriter />
+                <CommentList />
+              </DetailMainTextBox>
+            </DetailsContentsBox>
+          </DetailsBox>
+          <CommentBox>
+            <div style={{ width: '50%' }}>&nbsp;</div>
+            <div style={{ width: '50%' }}>
+              <CommentUpload />
             </div>
-            <div>
-              <Button style={{ width: '64px' }}>저장</Button>
-            </div>
-          </div>
-          <div>
-            <a href="#">link.com</a>
-          </div>
-          <DetailMainTextBox>
-            <h1>Hoping that you get it Messi deserves it</h1>
-            <p>
-              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-              industry`s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
-              scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into
-              electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release
-              of Letraset sheets containing Lorem Ipsum passages, and more
-            </p>
-            <PinWriter />
-            <CommentList />
-          </DetailMainTextBox>
-        </DetailsContentsBox>
-      </DetailsBox>
-      <CommentBox>
-        <div style={{ width: '50%' }}>&nbsp;</div>
-        <div style={{ width: '50%' }}>
-          <CommentUpload />
-        </div>
-      </CommentBox>
-    </PinDetailLayout>
+          </CommentBox>
+        </PinDetailLayout>
+      )}
+    </>
   );
 };
 
