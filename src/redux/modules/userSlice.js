@@ -4,6 +4,7 @@ import userApi from '../../apis/userApi';
 
 const initialState = {
   userInfo: null,
+  pinsArrs: [],
   response: {},
   isLoading: false,
   error: null,
@@ -64,6 +65,16 @@ export const __updateUserInfo = createAsyncThunk('updateUserInfo', async (payloa
   }
 });
 
+// 회원이 작성한 핀 조회
+export const __getPinsMadeByUser = createAsyncThunk('getPinsMadeByUser', async (payload, thunkAPI) => {
+  try {
+    const { data } = await userApi.getPinsMadeByUser(payload.userId);
+    return thunkAPI.fulfillWithValue(data.data);
+  } catch (err) {
+    return thunkAPI.rejectWithValue(err);
+  }
+});
+
 export const userSlice = createSlice({
   name: 'user',
   initialState,
@@ -109,9 +120,22 @@ export const userSlice = createSlice({
       state.isLoading = true;
     },
     [__getUserInfo.fulfilled]: (state, action) => {
+      state.isLoading = false;
       state.userInfo = action.payload;
     },
     [__getUserInfo.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
+    },
+    // 회원 작성 핀 조회
+    [__getPinsMadeByUser.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [__getPinsMadeByUser.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.pinsArr = action.payload;
+    },
+    [__getPinsMadeByUser.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
     },

@@ -1,57 +1,31 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import React from 'react';
+import { useSelector } from 'react-redux';
 
 import ProfileImageUpdate from '../components/users/profileUpdate/ProfileImageUpdate';
 import ProfileDataUpdateForm from '../components/users/profileUpdate/ProfileDataUpdateForm';
-
-import { __getUserInfo } from '../redux/modules/userSlice';
 
 import styled from 'styled-components';
 import { Colors } from '../styles';
 
 const Profile = () => {
-  const navigate = useNavigate();
+  const { userInfo } = useSelector((state) => state.userSlice);
 
-  const isToken = Boolean(localStorage.getItem('accessToken'));
-
-  useEffect(() => {
-    // 로그인한 상태인 경우에만!
-    if (isToken !== true) {
-      navigate('/');
-      window.location.reload();
-    }
-  }, []);
-
-  const params = useParams().id;
-  const dispatch = useDispatch();
-
-  // 렌더링 시 데이터 조회
-  useEffect(() => {
-    dispatch(__getUserInfo(params));
-  }, []);
-
-  const { data } = useSelector((state) => state.userSlice.userInfo);
-
-  try {
-    if (data !== undefined) {
-      return (
-        <ProfileLayout>
-          <ProfileBox>
-            <ProfileTextBox>
-              <ProfileTitleText>공개프로필</ProfileTitleText>
-              <span>회원님의 프로필을 방문하는 사용자에게 다음 정보가 표시됩니다.</span>
-            </ProfileTextBox>
-            <ProfileImageUpdate profileImage={data.image} userId={data.userId} />
-            <ProfileDataUpdateForm name={data.name} userName={data.username} userId={data.userId} />
-          </ProfileBox>
-        </ProfileLayout>
-      );
-    }
-  } catch (error) {
-    console.log(error);
-    return <div>error</div>;
+  if (userInfo === null) {
+    return <div>...loading</div>;
   }
+
+  return (
+    <ProfileLayout>
+      <ProfileBox>
+        <ProfileTextBox>
+          <ProfileTitleText>공개프로필</ProfileTitleText>
+          <span>회원님의 프로필을 방문하는 사용자에게 다음 정보가 표시됩니다.</span>
+        </ProfileTextBox>
+        <ProfileImageUpdate profileImage={userInfo.image} userId={userInfo.userId} />
+        <ProfileDataUpdateForm name={userInfo.name} userName={userInfo.username} userId={userInfo.userId} />
+      </ProfileBox>
+    </ProfileLayout>
+  );
 };
 
 const ProfileLayout = styled.div`
