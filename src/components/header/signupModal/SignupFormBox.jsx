@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 import { emailIdCheck, passwordCheck } from '../../../utils/validationCheck';
+import { __signup } from '../../../redux/modules/userSlice';
 
 import styled from 'styled-components';
 import Button from '../../common/Button';
@@ -9,20 +11,22 @@ import Label from '../../common/Label';
 import ValidationText from '../../common/ValidationText';
 
 const SignupFormBox = () => {
+  const dispatch = useDispatch();
+
   // 아이디, 비밀번호, 이름 입력
   const [emailId, setEmailId] = useState('');
   const [password, setPassword] = useState('');
-  const [userName, setUserName] = useState('');
+  // const [userName, setUserName] = useState('');
 
   //오류메시지 상태저장
   const [emailIdMessage, setEmailIdMessage] = useState('');
   const [passwordMessage, setPasswordMessage] = useState('');
-  const [userNameMessage, setUserNameMessage] = useState('');
+  // const [userNameMessage, setUserNameMessage] = useState('');
 
   // 유효성 검사
   const [isEmailId, setIsEmailId] = useState(true);
   const [isPassword, setIsPassword] = useState(true);
-  const [isUserName, setIsUserName] = useState(true);
+  // const [isUserName, setIsUserName] = useState(true);
 
   const onBlurEmialId = () => {
     if (!emailIdCheck(emailId)) {
@@ -55,17 +59,17 @@ const SignupFormBox = () => {
     }
   };
 
-  const onBlurUserName = () => {
-    if (userName.length < 2 || userName.length > 12) {
-      setUserNameMessage('이름을 2자이상 13자 미만으로 입력해주세요.');
-      setIsUserName(false);
-    } else {
-      setIsUserName(true);
-    }
-    if (userName === '') {
-      setIsUserName(true);
-    }
-  };
+  // const onBlurUserName = () => {
+  //   if (userName.length < 2 || userName.length > 12) {
+  //     setUserNameMessage('이름을 2자이상 13자 미만으로 입력해주세요.');
+  //     setIsUserName(false);
+  //   } else {
+  //     setIsUserName(true);
+  //   }
+  //   if (userName === '') {
+  //     setIsUserName(true);
+  //   }
+  // };
 
   const handeSignupSubmit = () => {
     if (emailId === '') {
@@ -80,13 +84,13 @@ const SignupFormBox = () => {
       return;
     }
 
-    if (userName === '') {
-      setUserNameMessage('이름을 입력해주세요.');
-      setIsUserName(false);
-      return;
-    }
+    // if (userName === '') {
+    //   setUserNameMessage('이름을 입력해주세요.');
+    //   setIsUserName(false);
+    //   return;
+    // }
 
-    // dispatch(__signUp({ loginId: userId, password: password, nickname: nickName }));
+    dispatch(__signup({ email: emailId, password: password }));
   };
 
   const signupButton = { padding: '0px 18px', margin: '8px 0px 0px', height: '40px', width: '268px' };
@@ -129,7 +133,7 @@ const SignupFormBox = () => {
         />
         {isPassword ? null : <ValidationText isValueValid={isPassword}>{passwordMessage}</ValidationText>}
       </SignupPasswordInputBox>
-      <SignupNameInputBox>
+      {/* <SignupNameInputBox>
         <Label>이름</Label>
         <Input
           isValueValid={true}
@@ -146,7 +150,7 @@ const SignupFormBox = () => {
           onBlur={onBlurUserName}
         />
         {isUserName ? null : <ValidationText isValueValid={isUserName}>{userNameMessage}</ValidationText>}
-      </SignupNameInputBox>
+      </SignupNameInputBox> */}
       <div>
         <Button type="button" style={signupButton} onClick={handeSignupSubmit}>
           계속하기
@@ -172,13 +176,13 @@ const SignupPasswordInputBox = styled.div`
   align-items: left;
 `;
 
-const SignupNameInputBox = styled.div`
-  margin-top: 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: left;
-  align-items: left;
-`;
+// const SignupNameInputBox = styled.div`
+//   margin-top: 10px;
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: left;
+//   align-items: left;
+// `;
 
 const SignupFormSubmitBox = styled.form`
   margin-top: 5px;
