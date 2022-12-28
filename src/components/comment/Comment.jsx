@@ -16,15 +16,14 @@ import { getTimeForToday } from '../../utils/dateHandler';
 import styled from 'styled-components';
 
 // TODO: 드럽게 복잡하고 재사용성이 안좋은 현재 상태를 나중에 잘 재구성해보자!
-const Comment = ({ pinId, commentId, parentCommentId, name, image, comment, like, createdAt }) => {
-  const { user } = useSelector((state) => state.userSlice);
+const Comment = ({ pinId, commentId, parentCommentId, name, image, comment, like, createdAt, userId }) => {
+  const { userInfo } = useSelector((state) => state.userSlice);
   const dispatch = useDispatch();
   const [modifyBoxVisible, setModifyBoxVisible] = useState(false);
   const [updateInputVisible, setUpdateInputVisible] = useState(false);
   const [replyVisible, setReplyVisible] = useState(false);
   const [currentComment, setCurrentComment] = useState(comment);
   const [replyComment, setReplyComment] = useState('');
-  user;
   const handleCommentDeleteClick = () => {
     dispatch(__deleteComment({ commentId }));
   };
@@ -48,6 +47,12 @@ const Comment = ({ pinId, commentId, parentCommentId, name, image, comment, like
     commentApi.register({ pinId, comment: replyComment, parentCommentId: commentId }).then(() => {
       setModifyBoxVisible(false);
       setReplyVisible(false);
+      dispatch(__getCommentList({ pinId }));
+    });
+  };
+
+  const handleCommentLikeClick = () => {
+    commentApi.putLikeById({ commentId }).then(() => {
       dispatch(__getCommentList({ pinId }));
     });
   };
@@ -102,7 +107,7 @@ const Comment = ({ pinId, commentId, parentCommentId, name, image, comment, like
           <CommentSubBox>
             <div>{getTimeForToday(createdAt)}</div>
             <div>
-              <CommentIconButton icon={<Icon.Like width={11} height={11} />} />
+              <CommentIconButton icon={<Icon.Like width={11} height={11} />} onClick={handleCommentLikeClick} />
               {like}
             </div>
             <div>
@@ -110,16 +115,18 @@ const Comment = ({ pinId, commentId, parentCommentId, name, image, comment, like
                 답변
               </ReplyLink>
             </div>
-            <div>
-              <CommentIconButton
-                onClick={() => setModifyBoxVisible(true)}
-                icon={<Icon.SelectMoreInfo width={11} height={11} fill={'rgba(18, 18, 18, 0.7)'} />}
-              />
-              <SelectBox visible={modifyBoxVisible} onClose={() => setModifyBoxVisible(false)}>
-                <CommentModifiyLink onClick={() => setUpdateInputVisible(true)}>수정</CommentModifiyLink>
-                <CommentModifiyLink onClick={handleCommentDeleteClick}>삭제</CommentModifiyLink>
-              </SelectBox>
-            </div>
+            {userInfo?.userId === userId && (
+              <div>
+                <CommentIconButton
+                  onClick={() => setModifyBoxVisible(true)}
+                  icon={<Icon.SelectMoreInfo width={11} height={11} fill={'rgba(18, 18, 18, 0.7)'} />}
+                />
+                <SelectBox visible={modifyBoxVisible} onClose={() => setModifyBoxVisible(false)}>
+                  <CommentModifiyLink onClick={() => setUpdateInputVisible(true)}>수정</CommentModifiyLink>
+                  <CommentModifiyLink onClick={handleCommentDeleteClick}>삭제</CommentModifiyLink>
+                </SelectBox>
+              </div>
+            )}
           </CommentSubBox>
           {replyVisible && (
             <>

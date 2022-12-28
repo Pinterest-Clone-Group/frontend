@@ -47,7 +47,7 @@ const PinDetail = () => {
                       즐겨찾기 해제
                     </Button>
                   ) : (
-                    <Button onClick={handlePutPinLikeClick}>즐겨찾기 등록</Button>
+                    <Button onClick={handlePutPinLikeClick}>저장</Button>
                   )}
                 </div>
               </div>
@@ -88,11 +88,13 @@ const DetailsBox = styled.div`
 `;
 
 const DetailsImageBox = styled.div`
+  padding: 20px;
   width: 50%;
-  border-radius: 36px 0px 0px 36px;
+  height: auto;
+  border-radius: 36px;
   & > img {
     width: 100%;
-    border-radius: 36px 0px 0px 36px;
+    border-radius: 36px;
     max-height: 1000px;
   }
 `;
