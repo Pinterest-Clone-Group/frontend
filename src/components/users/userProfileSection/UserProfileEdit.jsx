@@ -1,22 +1,36 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import Button from '../../common/Button';
 
-//TODO: Link 연결
 const UserProfileEdit = () => {
   const navigate = useNavigate();
+  const params = useParams().id;
 
-  const { data } = useSelector((state) => state.userSlice.userInfo);
+  const { userId } = useSelector((state) => state.userSlice.userInfo);
 
-  return (
-    <div>
-      <Button btnColor="grey" btnSize="small" onClick={() => navigate(`/users/profile/${data.userId}`)}>
-        프로필 수정
-      </Button>
-    </div>
-  );
+  if (userId === null) {
+    return <div>...loading</div>;
+  }
+
+  if (parseInt(params) === parseInt(userId)) {
+    return (
+      <div>
+        <Button btnColor="grey" btnSize="small" onClick={() => navigate(`/users/profile/${userId}`)}>
+          프로필 수정
+        </Button>
+      </div>
+    );
+  } else {
+    return (
+      <div>
+        <Button btnColor="brand" btnSize="small">
+          팔로우
+        </Button>
+      </div>
+    );
+  }
 };
 
 export default UserProfileEdit;

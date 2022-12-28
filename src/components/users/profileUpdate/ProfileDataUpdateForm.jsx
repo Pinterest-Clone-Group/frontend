@@ -9,9 +9,10 @@ import Label from '../../common/Label';
 import Input from '../../common/Input';
 import ValidationText from '../../common/ValidationText';
 
-// TODO: 정보 수정 기능
+// TODO: 정보 수정 기능 연결 (404 에러 확인)
 
 const ProfileDataUpdateForm = ({ userId, name, userName }) => {
+  console.log(userId, name, userName);
   const dispatch = useDispatch();
   // 아이디, 비밀번호, 이름 입력
   const [profileName, setName] = useState('');
