@@ -6,23 +6,9 @@ import PinCard from '../components/pin/PinCard';
 import { __getPinList } from '../redux/modules/pinSlice';
 import pinApi from '../apis/pinApi';
 import styled from 'styled-components';
-import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-
 function getItems(nextGroupKey, count) {
-  const navigate = useNavigate();
-
-  const isToken = Boolean(localStorage.getItem('accessToken'));
-
-  useEffect(() => {
-    // 로그인한 상태인 경우에만!
-    if (isToken !== true) {
-      navigate('/');
-      window.location.reload();
-    }
-  }, []);
-
   const nextItems = [];
   const nextKey = nextGroupKey * count;
 
@@ -40,6 +26,17 @@ const Item = ({ pin }) => (
 
 // TODO: 이미지 lazyloading 고려
 export default function App() {
+  const navigate = useNavigate();
+
+  const isToken = Boolean(localStorage.getItem('accessToken'));
+
+  useEffect(() => {
+    // 로그인한 상태인 경우에만!
+    if (isToken !== true) {
+      navigate('/');
+      window.location.reload();
+    }
+  }, []);
   const { pins, isLoading, error } = useSelector((state) => state.pinSlice);
   const dispatch = useDispatch();
 

@@ -3,7 +3,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import userApi from '../../apis/userApi';
 
 const initialState = {
-  // user: null, // 사용자 정보
+  userInfo: {}, // 사용자 정보
   // error: null, // 에러
   response: {},
   isLoading: false,
@@ -23,13 +23,37 @@ export const __signup = createAsyncThunk('signup', async (payload, thunkAPI) => 
   }
 });
 
-// 회원가입
+// 로그인
 export const __login = createAsyncThunk('login', async (payload, thunkAPI) => {
   try {
     const response = await userApi.login(payload);
     localStorage.setItem('accessToken', response.data.accessToken);
     localStorage.setItem('refreshToken', response.data.refreshToken);
     alert('로그인 성공!');
+    window.location.reload();
+    return thunkAPI.fulfillWithValue(response.data);
+  } catch (error) {
+    const { errorMessage } = error.response.data;
+    alert(errorMessage);
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+
+// 마이페이지 회원정보 조회
+export const __getUserInfo = createAsyncThunk('getUserInfo', async (payload, thunkAPI) => {
+  try {
+    const { data } = await userApi.getUserInfo(payload);
+    return thunkAPI.fulfillWithValue(data);
+  } catch (err) {
+    return thunkAPI.rejectWithValue(err);
+  }
+});
+
+// 회원 정보 수정
+export const __updateUserInfo = createAsyncThunk('updateUserInfo', async (payload, thunkAPI) => {
+  try {
+    const response = await userApi.updateUserInfo(payload);
+    alert('회원 정보 수정 성공!');
     window.location.reload();
     return thunkAPI.fulfillWithValue(response.data);
   } catch (error) {
@@ -65,6 +89,18 @@ export const userSlice = createSlice({
       state.response = action.payload;
     },
     [__login.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
+    },
+    // 사용자 정보 조회
+    [__getUserInfo.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [__getUserInfo.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.userInfo = action.payload;
+    },
+    [__getUserInfo.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
     },
