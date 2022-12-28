@@ -1,27 +1,34 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { __getUserInfo, login } from '../../redux/modules/userSlice';
 
-import SignupModalButton from './signupModal/SignupModalButton';
-import LoginModalButton from './loginModal/LoginModalButton';
-import LogoutButton from './logoutButton/LogoutButton';
-
-import styled from 'styled-components';
 import { Colors } from '../../styles';
+import LoginModalButton from './loginModal/LoginModalButton';
 import Logo from '../common/Logo';
+import LogoutButton from './logoutButton/LogoutButton';
 import ProfileImage from '../common/ProfileImage';
+import SignupModalButton from './signupModal/SignupModalButton';
+import { getUserIdFromAccessToken } from '../../utils/jwtHandler';
+import styled from 'styled-components';
+import { useDispatch } from 'react-redux';
 
-// TODO: 로그인, 가입 페이지 이동시키기
-// TODO: 비로그인 사용자만 접근시키기
-const UnAuthorizedNavigtaionBar = () => {
-  const isToken = Boolean(localStorage.getItem('accessToken'));
-
+const NavigtaionBar = ({ isLogined }) => {
+  const dispatch = useDispatch();
+  const accessToken = localStorage.getItem('accessToken');
+  useEffect(() => {
+    if (accessToken) {
+      const userId = getUserIdFromAccessToken(accessToken);
+      dispatch(__getUserInfo({ userId }));
+      dispatch(login());
+    }
+  }, [isLogined]);
   return (
-    <UnAuthorizedNavigtaionBarLayout>
+    <NavigtaionBarLayout>
       <LeftSideBox>
         <Logo />
         <LogoParagraph>Pinterest</LogoParagraph>
       </LeftSideBox>
 
-      {isToken ? (
+      {isLogined ? (
         <RightSideBox>
           <ProfileImage />
           <LogoutButton />
@@ -32,11 +39,11 @@ const UnAuthorizedNavigtaionBar = () => {
           <SignupModalButton />
         </RightSideBox>
       )}
-    </UnAuthorizedNavigtaionBarLayout>
+    </NavigtaionBarLayout>
   );
 };
 
-const UnAuthorizedNavigtaionBarLayout = styled.div`
+const NavigtaionBarLayout = styled.div`
   display: flex;
   height: 81px;
   padding-left: 28px;
@@ -64,4 +71,4 @@ const RightSideBox = styled.div`
   grid-column-gap: 8px;
 `;
 
-export default UnAuthorizedNavigtaionBar;
+export default NavigtaionBar;

@@ -3,10 +3,11 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import userApi from '../../apis/userApi';
 
 const initialState = {
-  userInfo: {}, // 사용자 정보
-  // error: null, // 에러
+  userInfo: null,
   response: {},
   isLoading: false,
+  error: null,
+  isLogined: false,
 };
 
 // 회원가입
@@ -42,8 +43,8 @@ export const __login = createAsyncThunk('login', async (payload, thunkAPI) => {
 // 마이페이지 회원정보 조회
 export const __getUserInfo = createAsyncThunk('getUserInfo', async (payload, thunkAPI) => {
   try {
-    const { data } = await userApi.getUserInfo(payload);
-    return thunkAPI.fulfillWithValue(data);
+    const { data } = await userApi.getUserInfo(payload.userId);
+    return thunkAPI.fulfillWithValue({ ...data.data, userId: payload.userId });
   } catch (err) {
     return thunkAPI.rejectWithValue(err);
   }
@@ -66,7 +67,18 @@ export const __updateUserInfo = createAsyncThunk('updateUserInfo', async (payloa
 export const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {},
+  reducers: {
+    login: (state) => {
+      state.isLogined = true;
+    },
+    logout: (state) => {
+      state.user = null;
+      state.isLogined = false;
+    },
+    changeProfile: (state, action) => {
+      state.user.image = action.payload;
+    },
+  },
   extraReducers: {
     // 회원가입
     [__signup.pending]: (state) => {
@@ -97,15 +109,15 @@ export const userSlice = createSlice({
       state.isLoading = true;
     },
     [__getUserInfo.fulfilled]: (state, action) => {
-      state.isLoading = false;
       state.userInfo = action.payload;
     },
     [__getUserInfo.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
+      state.isLogined = false;
     },
   },
 });
 
-// export const { loginCheck } = userSlice.actions;
+export const { login, logout, changeProfile } = userSlice.actions;
 export default userSlice.reducer;
