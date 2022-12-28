@@ -18,6 +18,7 @@ export const Default = () => {
       <Icon.More />
       <Icon.Search />
       <Icon.ValidationWarning />
+      <Icon.SelectMoreInfo />
     </div>
   );
 };
