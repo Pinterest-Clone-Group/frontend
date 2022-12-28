@@ -1,31 +1,41 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import UserPinCardsSetting from './UserPinCardsSetting';
-import UserPinCardsList from './userPinCardsList/UserPinCardsList';
-
-import styled from 'styled-components';
 import { Colors } from '../../../styles';
+import UserPinCardsList from './userPinCardsList/UserPinCardsList';
+import UserPinCardsSetting from './UserPinCardsSetting';
+import styled from 'styled-components';
 
-const UserPinCardsSection = () => {
-  const [isPinCards, setIsPinCards] = useState(true);
-  console.log(isPinCards);
-
+const UserPinCardsSection = ({ userId }) => {
+  const [isPinCards, setIsPinCards] = useState(false);
+  useEffect(() => {
+    setTimeout(() => {
+      setIsPinCards(!isPinCards);
+    }, [500]);
+  }, []);
   return (
     <UserPinCardsLayout>
       <UserPInCardsCategoryBox>
         <UserPinCardsCategoryButtonBox>
-          <CategoryButton type="button" onClick={() => setIsPinCards(true)}>
-            생성됨
+          <CategoryButton
+            style={{ backgroundColor: isPinCards ? Colors.grey : 'white' }}
+            type="button"
+            onClick={() => setIsPinCards(true)}
+          >
+            내 등록
           </CategoryButton>
         </UserPinCardsCategoryButtonBox>
         <UserPinCardsCategoryButtonBox>
-          <CategoryButton type="button" onClick={() => setIsPinCards(false)}>
+          <CategoryButton
+            type="button"
+            style={{ backgroundColor: !isPinCards ? Colors.grey : 'white' }}
+            onClick={() => setIsPinCards(false)}
+          >
             저장됨
           </CategoryButton>
         </UserPinCardsCategoryButtonBox>
       </UserPInCardsCategoryBox>
       <UserPinCardsSetting />
-      <UserPinCardsList />
+      <UserPinCardsList isUserCreatedPin={isPinCards} userId={userId} />
     </UserPinCardsLayout>
   );
 };
@@ -48,7 +58,7 @@ const UserPInCardsCategoryBox = styled.div`
 `;
 
 const UserPinCardsCategoryButtonBox = styled.div`
-  width: 60px;
+  width: 90px;
   height: 100%;
   margin: 0px 20px;
   display: flex;

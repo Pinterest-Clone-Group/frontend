@@ -8,16 +8,18 @@ const UserProfileEdit = () => {
   const navigate = useNavigate();
   const params = useParams().id;
 
-  const { userId } = useSelector((state) => state.userSlice.userInfo);
+  const { userInfo } = useSelector((state) => state.userSlice);
 
-  if (userId === null) {
+  // console.log(userInfo);
+
+  if (userInfo === null) {
     return <div>...loading</div>;
   }
 
-  if (parseInt(params) === parseInt(userId)) {
+  if (parseInt(params) === parseInt(userInfo.userId)) {
     return (
       <div>
-        <Button btnColor="grey" btnSize="small" onClick={() => navigate(`/users/profile/${userId}`)}>
+        <Button btnColor="grey" btnSize="small" onClick={() => navigate(`/users/profile/${userInfo.userId}`)}>
           프로필 수정
         </Button>
       </div>
