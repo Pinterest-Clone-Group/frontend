@@ -51,6 +51,12 @@ const Comment = ({ pinId, commentId, parentCommentId, name, image, comment, like
     });
   };
 
+  const handleCommentLikeClick = () => {
+    commentApi.putLikeById({ commentId }).then(() => {
+      dispatch(__getCommentList({ pinId }));
+    });
+  };
+
   useEffect(() => {
     setCurrentComment(comment);
   }, [updateInputVisible]);
@@ -101,7 +107,7 @@ const Comment = ({ pinId, commentId, parentCommentId, name, image, comment, like
           <CommentSubBox>
             <div>{getTimeForToday(createdAt)}</div>
             <div>
-              <CommentIconButton icon={<Icon.Like width={11} height={11} />} />
+              <CommentIconButton icon={<Icon.Like width={11} height={11} />} onClick={handleCommentLikeClick} />
               {like}
             </div>
             <div>

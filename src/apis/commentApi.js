@@ -9,7 +9,8 @@ const commentApi = {
   // 핀 목록 검색 조회
   getAll: ({ pinId }) => authInstance.get(COMMENT_API + pinId + '/comments'),
   updateById: ({ commentId, comment }) => authInstance.put(COMMENT_API + 'comments/' + commentId, { comment }),
-  deleteById: ({ commentId }) => authInstance.delete(COMMENT_API + '/comments/' + commentId),
+  deleteById: ({ commentId }) => authInstance.delete(COMMENT_API + 'comments/' + commentId),
+  putLikeById: ({ commentId }) => authInstance.put(COMMENT_API + 'comments/' + commentId + '/likes'),
 };
 
 export default commentApi;
