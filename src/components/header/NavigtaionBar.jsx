@@ -19,7 +19,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
 const NavigtaionBar = () => {
-  const { userInfo, isLogined } = useSelector((state) => state.userSlice);
+  const { userInfo, isLogined, isLoading } = useSelector((state) => state.userSlice);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [myInfoSelectBoxVisible, setMyInfoSelectBoxVisible] = useState(false);
@@ -36,7 +36,7 @@ const NavigtaionBar = () => {
 
   // TODO: 인가 오류 401로 통일되고 refresh 재인가 api있으면 필요 X
   useEffect(() => {
-    if (!userInfo && isLogined) {
+    if (!isLoading && !userInfo && isLogined) {
       dispatch(logout());
       localStorage.clear();
     }
