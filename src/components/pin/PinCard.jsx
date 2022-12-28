@@ -13,7 +13,7 @@ const PinCard = ({ id, imageUrl, profileUrl, nickname, link }) => {
     <>
       <PinCardLayout onClick={() => navigate('/pins/' + id)}>
         <PinCardShadow>
-          <Button btnColor="brand" style={{ width: '70px', position: 'absolute', right: '11px', top: '11px' }}>
+          <Button btnColor="brand" style={{ position: 'absolute', right: '11px', top: '11px' }}>
             저장
           </Button>
           {link && (

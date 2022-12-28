@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
-
-// reducers
+import pinSlice from '../modules/pinSlice';
 import userSlice from '../modules/userSlice';
 
 const store = configureStore({
   reducer: {
+    pinSlice: pinSlice,
     userSlice: userSlice,
   },
 
