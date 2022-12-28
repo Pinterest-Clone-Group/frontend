@@ -1,9 +1,13 @@
+import { useDispatch, useSelector } from 'react-redux';
+
 import Button from '../common/Button';
 import { Colors } from '../../styles';
 import Icon from '../common/icons/Icon';
 import IconButton from '../common/IconButton';
 import PinUpdateModal from './pinUpdateModal/PinUpdateModal';
 import ProfileImage from '../common/ProfileImage';
+import { __getLikedPins } from '../../redux/modules/userSlice';
+import pinApi from '../../apis/pinApi';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router';
 import { useState } from 'react';
@@ -20,19 +24,48 @@ const PinCard = ({
   isUpdatable = false,
 }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [updateModalVisible, setUpdateModalVisible] = useState(false);
+  const { likedPins, userInfo } = useSelector((state) => state.userSlice);
   const handleNavigateDetailPageClick = () => {
     if (!updateModalVisible) {
       navigate('/pins/' + id);
     }
   };
+  const handlePutPinLikeClick = (e) => {
+    e.stopPropagation();
+    pinApi.putLike(id).then(() => {
+      dispatch(__getLikedPins({ userId: userInfo?.userId }));
+    });
+  };
+
   return (
     <>
       <PinCardLayout onClick={handleNavigateDetailPageClick}>
         <PinCardShadow>
-          <Button btnColor="brand" style={{ position: 'absolute', right: '11px', top: '11px' }}>
-            저장
-          </Button>
+          <>
+            {likedPins && (
+              <>
+                {likedPins.some((pin) => pin.pinId === parseInt(id)) ? (
+                  <Button
+                    btnColor="grey"
+                    style={{ position: 'absolute', right: '11px', top: '11px' }}
+                    onClick={handlePutPinLikeClick}
+                  >
+                    저장됨
+                  </Button>
+                ) : (
+                  <Button
+                    btnColor="brand"
+                    style={{ position: 'absolute', right: '11px', top: '11px' }}
+                    onClick={handlePutPinLikeClick}
+                  >
+                    저장
+                  </Button>
+                )}
+              </>
+            )}
+          </>
           {link && (
             <PinLink
               icon={

@@ -47,7 +47,7 @@ const PinDetail = () => {
                       즐겨찾기 해제
                     </Button>
                   ) : (
-                    <Button onClick={handlePutPinLikeClick}>즐겨찾기 등록</Button>
+                    <Button onClick={handlePutPinLikeClick}>저장</Button>
                   )}
                 </div>
               </div>
