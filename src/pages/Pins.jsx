@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 
 import { MasonryInfiniteGrid } from '@egjs/react-infinitegrid';
 import PinCard from '../components/pin/PinCard';
-import { __getPinList } from '../redux/modules/pinModule';
+import { __getPinList } from '../redux/modules/pinSlice';
 import pinApi from '../apis/pinApi';
 import styled from 'styled-components';
 
@@ -25,7 +25,7 @@ const Item = ({ pin }) => (
 
 // TODO: 이미지 lazyloading 고려
 export default function App() {
-  const { pins, isLoading, error } = useSelector((state) => state.pins);
+  const { pins, isLoading, error } = useSelector((state) => state.pinSlice);
   const dispatch = useDispatch();
 
   useEffect(() => {

@@ -7,13 +7,13 @@ import CommentUpload from '../components/comment/CommentUpload';
 import Icon from '../components/common/icons/Icon';
 import IconButton from '../components/common/IconButton';
 import PinWriter from '../components/pin/PinWriter';
-import { __getPinDetailById } from '../redux/modules/pinModule';
+import { __getPinDetailById } from '../redux/modules/pinSlice';
 import styled from 'styled-components';
 import { useParams } from 'react-router';
 
 const PinDetail = () => {
   const { id } = useParams();
-  const { pin, error } = useSelector((state) => state.pins);
+  const { pin, error } = useSelector((state) => state.pinSlice);
   const dispatch = useDispatch();
 
   useEffect(() => {
