@@ -4,7 +4,6 @@ import styled from 'styled-components';
 
 // TODO: 현재 이용자의 글쓴이 팔로우 상태에 따라 팔로우/언팔로우  버튼이 활성화된다.
 const PinWriter = ({ pin }) => {
-  console.log(pin);
   return (
     <PinWriterLayout>
       <WriterBox>

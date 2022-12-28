@@ -4,7 +4,8 @@ import userApi from '../../apis/userApi';
 
 const initialState = {
   userInfo: null,
-  pinsArrs: [{}],
+  likedPins: [],
+  pinsArrs: [],
   response: {},
   isLoading: false,
   error: null,
@@ -75,6 +76,16 @@ export const __getPinsMadeByUser = createAsyncThunk('getPinsMadeByUser', async (
   }
 });
 
+// 회원이 즐겨찾기 한 핀 조회
+export const __getLikedPins = createAsyncThunk('getLikedPins', async (payload, thunkAPI) => {
+  try {
+    const { data } = await userApi.getLikedPinsByUserId(payload.userId);
+    return thunkAPI.fulfillWithValue(data.data);
+  } catch (err) {
+    return thunkAPI.rejectWithValue(err);
+  }
+});
+
 export const userSlice = createSlice({
   name: 'user',
   initialState,
@@ -138,6 +149,11 @@ export const userSlice = createSlice({
     [__getPinsMadeByUser.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
+    },
+    // 회원이 즐겨찾기 한 핀 조회
+    [__getLikedPins.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.likedPins = action.payload;
     },
   },
 });

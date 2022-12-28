@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { __getUserInfo, login, logout } from '../../redux/modules/userSlice';
+import { __getLikedPins, __getUserInfo, login, logout } from '../../redux/modules/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Button from '../common/Button';
@@ -34,11 +34,9 @@ const NavigtaionBar = () => {
     }
   }, [isLogined]);
 
-  // TODO: 인가 오류 401로 통일되고 refresh 재인가 api있으면 필요 X
   useEffect(() => {
-    if (!userInfo && isLogined) {
-      dispatch(logout());
-      localStorage.clear();
+    if (userInfo) {
+      dispatch(__getLikedPins({ userId: userInfo.userId }));
     }
   }, [userInfo]);
 
