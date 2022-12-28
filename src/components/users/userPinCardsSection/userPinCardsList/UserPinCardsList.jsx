@@ -32,7 +32,6 @@ const UserPinCardsList = ({ isUserCreatedPin, userId }) => {
       setItems(() => getItems(0, currentPins.length));
     }
   }, [currentPins]);
-
   return (
     <UserPinCardsListsLayout>
       {items && (
@@ -58,6 +57,7 @@ const UserPinCardsList = ({ isUserCreatedPin, userId }) => {
                   key={item.key}
                   pin={{ ...currentPins[item.key] }}
                   hasWriter={false}
+                  isUpdatable={isUserCreatedPin && true}
                 />
               ),
           )}

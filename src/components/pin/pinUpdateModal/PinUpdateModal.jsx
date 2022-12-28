@@ -12,24 +12,25 @@ import useInput from '../../../hooks/useInput';
 import { useNavigate } from 'react-router';
 
 // TODO: pin 등록과의 input,validation 동작이 중복됨을 리팩터링
-const PinUpdateModal = ({ visible, onClose, pin }) => {
-  const [title, titleValid, handleTitleChange] = useInput(pin.title, PIN_VALIDATION.title);
-  const [content, contentValid, handleContentChange] = useInput(pin.content, PIN_VALIDATION.content);
+const PinUpdateModal = ({ visible, onClose, pinTitle, pinContent, pinImage, pinId }) => {
+  const [title, titleValid, handleTitleChange] = useInput(pinTitle, PIN_VALIDATION.title);
+  const [content, contentValid, handleContentChange] = useInput(pinContent, PIN_VALIDATION.content);
   const navigate = useNavigate();
 
   const handlePinUpdateClick = () => {
     if (titleValid.isOk && contentValid.isOk) {
-      pinApi.update({ pinId: pin.pinId, title, content }).then((res) => {
+      pinApi.update({ pinId: pinId, title, content }).then((res) => {
         alert(res.data.message);
         onClose();
-        navigate('/pins/' + pin.pinId);
+        navigate('/pins/' + pinId);
       });
     }
   };
 
   const handlePinDeleteClick = () => {
-    pinApi.delete(pin.pinId).then((res) => {
+    pinApi.delete(pinId).then((res) => {
       alert(res.data.message);
+      navigate('/pins');
       onClose();
     });
   };
@@ -38,20 +39,15 @@ const PinUpdateModal = ({ visible, onClose, pin }) => {
     <Modal visible={visible} onClose={onClose} hasCloseIcon={false} width={747}>
       <div style={{ maxHeight: '70vh', overflow: 'auto' }}>
         <Title>이 핀 수정하기</Title>
-        <img src={pin.image} width="240px" />
+        <img src={pinImage} width="240px" />
         <InputsBox>
           <InputFlexBox>
             <InputFlexLeftBox>
               <Label>제목</Label>
             </InputFlexLeftBox>
             <InputFlexRightBox>
-              <Input
-                type="text"
-                value={title}
-                onChange={handleTitleChange}
-                isValueValid={!title || title === pin.title || titleValid.isOk}
-              />
-              {title && title !== pin.title && (
+              <Input type="text" value={title} onChange={handleTitleChange} isValueValid={!title || titleValid.isOk} />
+              {title && title !== pinTitle && (
                 <ValidationText isValueValid={titleValid.isOk}>{titleValid.message}</ValidationText>
               )}
             </InputFlexRightBox>
@@ -64,9 +60,9 @@ const PinUpdateModal = ({ visible, onClose, pin }) => {
               <TextArea
                 value={content}
                 onChange={handleContentChange}
-                isValueValid={!content || content === pin.content || contentValid.isOk}
+                isValueValid={!content || content === pinContent || contentValid.isOk}
               />
-              {content && content !== pin.content && !contentValid.isOk && (
+              {content && !contentValid.isOk && (
                 <ValidationText isValueValid={contentValid.isOk}>{contentValid.message}</ValidationText>
               )}
             </InputFlexRightBox>

@@ -17,14 +17,16 @@ export function getItems(nextGroupKey, count) {
   return nextItems;
 }
 
-export const Item = ({ pin, hasWriter }) => (
+export const Item = ({ pin, hasWriter, isUpdatable = false }) => (
   <div>
     <PinCard
       id={pin.pinId}
+      title={pin.title}
       imageUrl={pin.image}
       nickname={pin.name}
       profileUrl={pin.userImage}
       hasWriterInfo={hasWriter}
+      isUpdatable={isUpdatable}
     />
   </div>
 );
