@@ -24,7 +24,7 @@ const useS3Upload = () => {
         Bucket: process.env.REACT_APP_S3_BUCKET,
         Body: file, // 업로드할 파일 객체
         ContentType: file.type,
-        Key: 'data/' + dir + '/' + Date.now() + file.name,
+        Key: 'data/' + dir + '/' + Date.now() + file.type,
       },
     });
 

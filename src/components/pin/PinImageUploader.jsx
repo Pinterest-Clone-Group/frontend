@@ -89,7 +89,7 @@ const PinImageUploader = ({ image, setImage, setImageFile }) => {
         )}
         {/* TODO: 등록 이미지 미리보기, 등록된 이미지 삭제, 서버에 업로드 구현 */}
         <div>클릭하여 이미지 업로드</div>
-        <p>권장사항: 10MB미만의 JPEG 파일</p>
+        <p>제한사항: 5MB미만의 JPEG 파일</p>
       </ImageUploadBox>
     </div>
   );
