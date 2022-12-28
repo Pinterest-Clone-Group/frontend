@@ -7,7 +7,7 @@ const initialState = {
   response: {},
   isLoading: false,
   error: null,
-  isLogined: false,
+  isLogined: localStorage.getItem('isLogined'),
 };
 
 // 회원가입
@@ -114,7 +114,6 @@ export const userSlice = createSlice({
     [__getUserInfo.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
-      state.isLogined = false;
     },
   },
 });

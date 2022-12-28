@@ -20,6 +20,7 @@ const NavigtaionBar = () => {
       const userId = getUserIdFromAccessToken(accessToken);
       dispatch(__getUserInfo({ userId }));
       dispatch(login());
+      localStorage.setItem('isLogined', true);
     }
   }, [isLogined]);
   return (

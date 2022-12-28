@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import userApi from '../apis/userApi';
+
 import NavigtaionBar from '../components/header/NavigtaionBar';
-import React from 'react';
+import userApi from '../apis/userApi';
 
 function Layout({ children }) {
   const navigate = useNavigate();
