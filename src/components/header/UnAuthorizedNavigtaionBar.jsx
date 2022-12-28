@@ -2,6 +2,7 @@ import React from 'react';
 
 import SignupModalButton from './signupModal/SignupModalButton';
 import LoginModalButton from './loginModal/LoginModalButton';
+import LogoutButton from './logoutButton/LogoutButton';
 
 import styled from 'styled-components';
 import { Colors } from '../../styles';
@@ -10,16 +11,25 @@ import Logo from '../common/Logo';
 // TODO: 로그인, 가입 페이지 이동시키기
 // TODO: 비로그인 사용자만 접근시키기
 const UnAuthorizedNavigtaionBar = () => {
+  const isToken = Boolean(localStorage.getItem('accessToken'));
+
   return (
     <UnAuthorizedNavigtaionBarLayout>
       <LeftSideBox>
         <Logo />
         <LogoParagraph>Pinterest</LogoParagraph>
       </LeftSideBox>
-      <RightSideBox>
-        <LoginModalButton />
-        <SignupModalButton />
-      </RightSideBox>
+
+      {isToken ? (
+        <RightSideBox>
+          <LogoutButton />
+        </RightSideBox>
+      ) : (
+        <RightSideBox>
+          <LoginModalButton />
+          <SignupModalButton />
+        </RightSideBox>
+      )}
     </UnAuthorizedNavigtaionBarLayout>
   );
 };

@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 import ValidationText from '../../common/ValidationText';
 
+import { __login } from '../../../redux/modules/userSlice';
 import { emailIdCheck } from '../../../utils/validationCheck';
 
 import styled from 'styled-components';
@@ -10,19 +12,16 @@ import Input from '../../common/Input';
 import Label from '../../common/Label';
 
 const LoginFormBox = () => {
+  const dispatch = useDispatch();
   // 아이디, 비밀번호, 이름 입력
   const [emailId, setEmailId] = useState('');
   const [password, setPassword] = useState('');
 
-  console.log(password);
-
   //오류메시지 상태저장
   const [emailIdMessage, setEmailIdMessage] = useState('');
-  //   const [passwordMessage, setPasswordMessage] = useState('');
 
   // 유효성 검사
   const [isEmailId, setIsEmailId] = useState(true);
-  //   const [isPassword, setIsPassword] = useState(true);
 
   const handelLoginSubmit = () => {
     if (emailId === '') {
@@ -36,7 +35,7 @@ const LoginFormBox = () => {
       setIsEmailId(false);
     }
 
-    // dispatch(__signUp({ loginId: userId, password: password, nickname: nickName }));
+    dispatch(__login({ email: emailId, password: password }));
   };
 
   const LoginButton = { padding: '0px 18px', margin: '8px 0px 0px', height: '40px', width: '268px' };
@@ -75,7 +74,6 @@ const LoginFormBox = () => {
             setPassword(e.target.value);
           }}
         />
-        {/* {isPassword ? null : <ValidationText isValueValid={isPassword}>{passwordMessage}</ValidationText>} */}
       </LoginPasswordInputBox>
       <div>
         <Button type="button" style={LoginButton} onClick={handelLoginSubmit}>

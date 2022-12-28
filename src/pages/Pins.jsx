@@ -1,10 +1,23 @@
 import { MasonryInfiniteGrid } from '@egjs/react-infinitegrid';
 import PinCard from '../components/pin/PinCard';
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 // TODO: 임시 UI구성동작을 api로 대체
 function getItems(nextGroupKey, count) {
+  const navigate = useNavigate();
+
+  const isToken = Boolean(localStorage.getItem('accessToken'));
+
+  useEffect(() => {
+    // 로그인한 상태인 경우에만!
+    if (isToken !== true) {
+      navigate('/');
+      window.location.reload();
+    }
+  }, []);
+
   const nextItems = [];
   const nextKey = nextGroupKey * count;
 
