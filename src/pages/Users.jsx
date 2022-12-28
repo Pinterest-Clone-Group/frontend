@@ -1,65 +1,38 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 
-import UserProfileSection from '../components/users/userProfileSection/UserProfileSection';
 import UserPinCardsSection from '../components/users/userPinCardsSection/UserPinCardsSection';
-
-import { __getUserInfo } from '../redux/modules/userSlice';
+import UserProfileSection from '../components/users/userProfileSection/UserProfileSection';
+import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import userApi from '../apis/userApi';
 
 const Users = () => {
-  const navigate = useNavigate();
-
-  const isToken = Boolean(localStorage.getItem('accessToken'));
-
-  useEffect(() => {
-    // 로그인한 상태인 경우에만!
-    if (isToken !== true) {
-      navigate('/');
-      window.location.reload();
-    }
-  }, []);
-
-  const params = useParams().id;
-  const dispatch = useDispatch();
-
+  const { id } = useParams();
+  const { isLogined } = useSelector((state) => state.userSlice);
+  console.log(isLogined);
+  const [currentUser, setCurrentUser] = useState();
   // 렌더링 시 데이터 조회
   useEffect(() => {
-    dispatch(__getUserInfo(params));
+    userApi.getUserInfo(id).then((res) => setCurrentUser(res.data.data));
+    // dispatch(__getUserInfo({ userId: id }));
   }, []);
 
-  const { data } = useSelector((state) => state.userSlice.userInfo);
-
-  try {
-    if (data !== undefined) {
-      return (
-        <div>
+  return (
+    <div>
+      {currentUser && (
+        <>
           <UserProfileSection
-            profileImage={data.image}
-            name={data.name}
-            userName={data.username}
-            userId={data.id}
-            key={data.id}
+            profileImage={currentUser.image}
+            name={currentUser.name}
+            userName={currentUser.username}
+            userId={currentUser.userId}
+            key={currentUser.userId}
           />
           <UserPinCardsSection />
-        </div>
-      );
-    }
-  } catch (error) {
-    console.log(error);
-    return <div>error</div>;
-  }
-
-  // console.log(data);
-  // console.log(isLoading);
-
-  // if (isLoading) {
-  //   return <div>...loading</div>;
-  // }
-  // if (error) {
-  //   console.log(error);
-  //   return <div>error</div>;
-  // }
+        </>
+      )}
+    </div>
+  );
 };
 
 export default Users;
