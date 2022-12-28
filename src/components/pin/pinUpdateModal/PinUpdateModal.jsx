@@ -3,11 +3,30 @@ import { Colors } from '../../../styles';
 import Input from '../../common/Input';
 import Label from '../../common/Label';
 import Modal from '../../common/Modal';
+import { PIN_VALIDATION } from '../../../constants/inputValidation';
 import TextArea from '../../common/TextArea';
+import ValidationText from '../../common/ValidationText';
+import pinApi from '../../../apis/pinApi';
 import styled from 'styled-components';
+import useInput from '../../../hooks/useInput';
+import { useNavigate } from 'react-router';
 
 // TODO: pin 등록과의 input,validation 동작이 중복됨을 리팩터링
 const PinUpdateModal = ({ visible, onClose, pin }) => {
+  const [title, titleValid, handleTitleChange] = useInput(pin.title, PIN_VALIDATION.title);
+  const [content, contentValid, handleContentChange] = useInput(pin.content, PIN_VALIDATION.content);
+  const navigate = useNavigate();
+
+  const handlePinUpdateClick = () => {
+    if (titleValid.isOk && contentValid.isOk) {
+      pinApi.update({ pinId: pin.pinId, title, content }).then((res) => {
+        alert(res.data.message);
+        onClose();
+        navigate('/pins/' + pin.pinId);
+      });
+    }
+  };
+
   return (
     <Modal visible={visible} onClose={onClose} hasCloseIcon={false} width={747}>
       <div style={{ maxHeight: '70vh', overflow: 'auto' }}>
@@ -19,7 +38,15 @@ const PinUpdateModal = ({ visible, onClose, pin }) => {
               <Label>제목</Label>
             </InputFlexLeftBox>
             <InputFlexRightBox>
-              <Input type="text" />
+              <Input
+                type="text"
+                value={title}
+                onChange={handleTitleChange}
+                isValueValid={!title || title === pin.title || titleValid.isOk}
+              />
+              {title && title !== pin.title && (
+                <ValidationText isValueValid={titleValid.isOk}>{titleValid.message}</ValidationText>
+              )}
             </InputFlexRightBox>
           </InputFlexBox>
           <InputFlexBox>
@@ -27,15 +54,14 @@ const PinUpdateModal = ({ visible, onClose, pin }) => {
               <Label>설명</Label>
             </InputFlexLeftBox>
             <InputFlexRightBox>
-              <TextArea />
-            </InputFlexRightBox>
-          </InputFlexBox>
-          <InputFlexBox>
-            <InputFlexLeftBox>
-              <Label>링크</Label>
-            </InputFlexLeftBox>
-            <InputFlexRightBox>
-              <Input type="text" />
+              <TextArea
+                value={content}
+                onChange={handleContentChange}
+                isValueValid={!content || content === pin.content || contentValid.isOk}
+              />
+              {content && content !== pin.content && !contentValid.isOk && (
+                <ValidationText isValueValid={contentValid.isOk}>{contentValid.message}</ValidationText>
+              )}
             </InputFlexRightBox>
           </InputFlexBox>
         </InputsBox>
@@ -51,7 +77,9 @@ const PinUpdateModal = ({ visible, onClose, pin }) => {
           <Button btnColor="grey" btnSize="small" onClick={onClose}>
             취소
           </Button>
-          <Button btnSize="small">저장</Button>
+          <Button btnSize="small" onClick={handlePinUpdateClick}>
+            저장
+          </Button>
         </div>
       </ButtonsGridBox>
     </Modal>
