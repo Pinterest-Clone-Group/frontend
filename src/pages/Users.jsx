@@ -1,25 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import userApi from '../apis/userApi';
 
 import UserPinCardsSection from '../components/users/userPinCardsSection/UserPinCardsSection';
 import UserProfileSection from '../components/users/userProfileSection/UserProfileSection';
-
 import { __getPinsMadeByUser } from '../redux/modules/userSlice';
+import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import userApi from '../apis/userApi';
 
 const Users = () => {
   const dispatch = useDispatch();
   const params = useParams().id;
 
-  const [currentUser, setCurrentUser] = useState({});
+  const [currentUser, setCurrentUser] = useState();
 
   useEffect(() => {
     dispatch(__getPinsMadeByUser({ userId: params }));
     userApi.getUserInfo(params).then((res) => setCurrentUser(res.data.data));
   }, [dispatch]);
 
-  if (currentUser === {}) {
+  if (!currentUser) {
     return <div>...loading</div>;
   }
 
@@ -32,7 +31,7 @@ const Users = () => {
         userId={currentUser.userId}
         key={currentUser.userId}
       />
-      <UserPinCardsSection />
+      <UserPinCardsSection userId={currentUser.userId} />
     </div>
   );
 };

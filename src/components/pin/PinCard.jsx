@@ -6,7 +6,7 @@ import ProfileImage from '../common/ProfileImage';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router';
 
-const PinCard = ({ id, imageUrl, profileUrl, nickname, link }) => {
+const PinCard = ({ id, imageUrl, profileUrl, nickname, link, hasWriterInfo = true }) => {
   const navigate = useNavigate();
 
   return (
@@ -31,8 +31,12 @@ const PinCard = ({ id, imageUrl, profileUrl, nickname, link }) => {
         <img src={imageUrl} />
       </PinCardLayout>
       <PinCardWriterBox>
-        <ProfileImage imageUrl={profileUrl} />
-        <p style={{ marginBottom: '5px' }}>{nickname}</p>
+        {hasWriterInfo && (
+          <>
+            <ProfileImage imageUrl={profileUrl} />
+            <p style={{ marginBottom: '5px' }}>{nickname}</p>
+          </>
+        )}
       </PinCardWriterBox>
     </>
   );

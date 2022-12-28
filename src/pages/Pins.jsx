@@ -7,7 +7,7 @@ import { __getPinList } from '../redux/modules/pinSlice';
 import pinApi from '../apis/pinApi';
 import styled from 'styled-components';
 
-function getItems(nextGroupKey, count) {
+export function getItems(nextGroupKey, count) {
   const nextItems = [];
   const nextKey = nextGroupKey * count;
 
@@ -17,15 +17,22 @@ function getItems(nextGroupKey, count) {
   return nextItems;
 }
 
-const Item = ({ pin }) => (
+export const Item = ({ pin, hasWriter }) => (
   <div>
-    <PinCard id={pin.pinId} imageUrl={pin.image} nickname={pin.name} profileUrl={pin.userImage} />
+    <PinCard
+      id={pin.pinId}
+      imageUrl={pin.image}
+      nickname={pin.name}
+      profileUrl={pin.userImage}
+      hasWriterInfo={hasWriter}
+    />
   </div>
 );
 
 // TODO: 이미지 lazyloading 고려
-export default function App() {
+export function App() {
   const { pins, isLoading, error } = useSelector((state) => state.pinSlice);
+  const [travelLastItem, setTravelLastItem] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -50,16 +57,23 @@ export default function App() {
         <MasonryInfiniteGrid
           gap={3}
           onRequestAppend={(e) => {
-            const nextGroupKey = (+e.groupKey || 0) + 1;
-            if (nextGroupKey >= parseInt(pins.length / 10)) {
+            if (travelLastItem) {
               return;
             }
-            setItems([...items, ...getItems(nextGroupKey, 10)]);
+            const nextGroupKey = (+e.groupKey || 0) + 1;
+            if (nextGroupKey * 10 > parseInt(pins.length)) {
+              setTravelLastItem(true);
+              return;
+            }
+            setItems([...items, ...getItems(nextGroupKey, Math.min(10))]);
           }}
         >
-          {items.map((item) => (
-            <Item data-grid-groupkey={item.groupKey} key={item.key} pin={{ ...pins[item.key] }} />
-          ))}
+          {items.map(
+            (item) =>
+              pins[item.key] && (
+                <Item data-grid-groupkey={item.groupKey} key={item.key} pin={{ ...pins[item.key] }} hasWriter={true} />
+              ),
+          )}
         </MasonryInfiniteGrid>
       )}
     </PinsLayout>
@@ -69,3 +83,5 @@ export default function App() {
 const PinsLayout = styled.div`
   padding: 30px;
 `;
+
+export default App;
