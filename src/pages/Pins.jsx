@@ -26,6 +26,17 @@ const Item = ({ pin }) => (
 
 // TODO: 이미지 lazyloading 고려
 export default function App() {
+  const navigate = useNavigate();
+
+  const isToken = Boolean(localStorage.getItem('accessToken'));
+
+  useEffect(() => {
+    // 로그인한 상태인 경우에만!
+    if (isToken !== true) {
+      navigate('/');
+      window.location.reload();
+    }
+  }, []);
   const { pins, isLoading, error } = useSelector((state) => state.pinSlice);
   const dispatch = useDispatch();
   const navigate = useNavigate();

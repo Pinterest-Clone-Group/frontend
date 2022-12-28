@@ -6,11 +6,11 @@ import Button from '../../common/Button';
 import styled from 'styled-components';
 // import { Colors } from '../styles';
 
-const ProfileImageUpdate = () => {
+const ProfileImageUpdate = ({ profileImage }) => {
   return (
     <ProfileImageUpdateLayout>
       <ProfileImageBox>
-        <ProfileImage size={90} />
+        <ProfileImage size={90} imageUrl={profileImage} />
       </ProfileImageBox>
       <Button btnColor="grey" btnSize="small">
         변경

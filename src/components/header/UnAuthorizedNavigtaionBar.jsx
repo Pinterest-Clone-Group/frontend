@@ -7,6 +7,7 @@ import LogoutButton from './logoutButton/LogoutButton';
 import styled from 'styled-components';
 import { Colors } from '../../styles';
 import Logo from '../common/Logo';
+import ProfileImage from '../common/ProfileImage';
 
 // TODO: 로그인, 가입 페이지 이동시키기
 // TODO: 비로그인 사용자만 접근시키기
@@ -22,6 +23,7 @@ const UnAuthorizedNavigtaionBar = () => {
 
       {isToken ? (
         <RightSideBox>
+          <ProfileImage />
           <LogoutButton />
         </RightSideBox>
       ) : (
