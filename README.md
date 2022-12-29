@@ -10,10 +10,9 @@
 
 ## 실행화면 및 배포주소 (최종 배포 후 작성)
 
-![핀터레스트1]](src/assets/images/screenshot 1.png)
-![핀터레스트2](src/assets/images/screenshot 2.png)
-![핀터레스트3](src/assets/images/screenshot 3.png)
-https://frontend1-bay.vercel.app/
+<img width="1552" alt="screenshot 1" src="https://user-images.githubusercontent.com/116893141/209961095-3208b2cc-52de-4075-9507-b45d8068345e.png">
+<img width="1552" alt="screenshot 2" src="https://user-images.githubusercontent.com/116893141/209961178-ab093eab-2079-4dee-b78f-5541e85d41b6.png">
+<img width="1552" alt="screenshot 3" src="https://user-images.githubusercontent.com/116893141/209961221-93f37bec-d501-418e-9c58-ca8e13892317.png">
 
 ---
 
