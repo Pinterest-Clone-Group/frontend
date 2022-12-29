@@ -95,7 +95,7 @@ const Comment = ({ pinId, commentId, parentCommentId, name, image, comment, like
         </>
       )}
       {!updateInputVisible && (
-        <div style={{ marginLeft: parentCommentId ? '20px' : 0 }}>
+        <div style={{ marginLeft: parentCommentId !== commentId ? '20px' : '0px' }}>
           <CommentMainBox>
             <ProfileImage imageUrl={image} />
             <p>
