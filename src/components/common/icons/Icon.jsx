@@ -11,6 +11,7 @@ import SelectMoreInfo from './SelectMoreInfo';
 import Setting from './Setting';
 import Submit from './Submit';
 import ValidationWarning from './ValidationWarning';
+import Write from './Write';
 
 const Icon = {
   Alert,
@@ -26,6 +27,7 @@ const Icon = {
   Setting,
   Submit,
   SelectMoreInfo,
+  Write,
 };
 
 export default Icon;

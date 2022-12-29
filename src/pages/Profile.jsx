@@ -1,12 +1,17 @@
-import React from 'react';
-
-import ProfileImageUpdate from '../components/users/profileUpdate/ProfileImageUpdate';
-import ProfileDataUpdateForm from '../components/users/profileUpdate/ProfileDataUpdateForm';
-
-import styled from 'styled-components';
 import { Colors } from '../styles';
+import ProfileDataUpdateForm from '../components/users/profileUpdate/ProfileDataUpdateForm';
+import ProfileImageUpdate from '../components/users/profileUpdate/ProfileImageUpdate';
+import React from 'react';
+import styled from 'styled-components';
+import { useSelector } from 'react-redux';
 
 const Profile = () => {
+  const { userInfo } = useSelector((state) => state.userSlice);
+
+  if (userInfo === null) {
+    return <div>...loading</div>;
+  }
+
   return (
     <ProfileLayout>
       <ProfileBox>
@@ -14,8 +19,8 @@ const Profile = () => {
           <ProfileTitleText>공개프로필</ProfileTitleText>
           <span>회원님의 프로필을 방문하는 사용자에게 다음 정보가 표시됩니다.</span>
         </ProfileTextBox>
-        <ProfileImageUpdate />
-        <ProfileDataUpdateForm />
+        <ProfileImageUpdate profileImage={userInfo.image} userId={userInfo.userId} />
+        <ProfileDataUpdateForm name={userInfo.name} userName={userInfo.username} userId={userInfo.userId} />
       </ProfileBox>
     </ProfileLayout>
   );

@@ -1,27 +1,75 @@
-import React from 'react';
+import { Item, getItems } from '../../../../pages/Pins';
+import React, { useEffect, useState } from 'react';
 
-import PinCard from './PinCard';
-
+import { MasonryInfiniteGrid } from '@egjs/react-infinitegrid';
 import styled from 'styled-components';
-// import { Colors } from '../../../styles';
+import userApi from '../../../../apis/userApi';
 
-const UserPinCardsList = () => {
-  const arrs = [
-    { id: 1, thumbnail: 'card1image', name: 'card1' },
-    { id: 2, thumbnail: 'card2image', name: 'card2' },
-    { id: 3, thumbnail: 'card3image', name: 'card3' },
-  ];
-  const handlePinCardsLIst = arrs.map((arr) => <PinCard key={arr.id} thumbnail={arr.thumbnail} name={arr.name} />);
+const UserPinCardsList = ({ isUserCreatedPin, userId }) => {
+  const [likedPins, setLikedPins] = useState([]);
+  const [uploadedPins, setUploadedPins] = useState([]);
+  const [currentPins, setCurrentPins] = useState([]);
+  const [items, setItems] = useState();
+  const [travelLastItem, setTravelLastItem] = useState(false);
+  useEffect(() => {
+    userApi.getLikedPinsByUserId(userId).then((res) => setLikedPins(res.data.data));
+  }, []);
 
-  return <UserPinCardsListsLayout>{handlePinCardsLIst}</UserPinCardsListsLayout>;
+  useEffect(() => {
+    userApi.getPinsMadeByUser(userId).then((res) => setUploadedPins(res.data.data));
+  }, []);
+
+  useEffect(() => {
+    if (isUserCreatedPin) {
+      setCurrentPins(uploadedPins);
+      return;
+    }
+    setCurrentPins(likedPins);
+  }, [isUserCreatedPin]);
+
+  useEffect(() => {
+    if (currentPins) {
+      setItems(() => getItems(0, currentPins.length));
+    }
+  }, [currentPins]);
+  return (
+    <UserPinCardsListsLayout>
+      {items && (
+        <MasonryInfiniteGrid
+          gap={3}
+          onRequestAppend={(e) => {
+            if (travelLastItem) {
+              return;
+            }
+            const nextGroupKey = (+e.groupKey || 0) + 1;
+            if (nextGroupKey * 10 > parseInt(currentPins.length)) {
+              setTravelLastItem(true);
+              return;
+            }
+            setItems([...items, ...getItems(nextGroupKey, Math.min(10))]);
+          }}
+        >
+          {items.map(
+            (item) =>
+              currentPins[item.key] && (
+                <Item
+                  data-grid-groupkey={item.groupKey}
+                  key={item.key}
+                  pin={{ ...currentPins[item.key] }}
+                  hasWriter={false}
+                  isUpdatable={isUserCreatedPin && true}
+                />
+              ),
+          )}
+        </MasonryInfiniteGrid>
+      )}
+    </UserPinCardsListsLayout>
+  );
 };
 
 const UserPinCardsListsLayout = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  align-items: center;
+  margin: 0 auto;
+  width: 90%;
 `;
 
 export default UserPinCardsList;

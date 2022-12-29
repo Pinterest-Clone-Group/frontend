@@ -1,20 +1,31 @@
 import React from 'react';
 
-import ProfileImage from '../../../common/ProfileImage';
+import userApi from '../../../../apis/userApi';
+import { __getFollowingUsers } from '../../../../redux/modules/userSlice';
 
 import styled from 'styled-components';
 import Button from '../../../common/Button';
+import ProfileImage from '../../../common/ProfileImage';
+import { useDispatch } from 'react-redux';
 
-const FollowingsList = () => {
+const FollowingsList = ({ following, userInfo }) => {
+  const dispatch = useDispatch();
+
+  const handleFollowsClick = () => {
+    userApi.updateFollows(following?.userId).then(() => {
+      dispatch(__getFollowingUsers({ userId: userInfo.userId }));
+    });
+  };
+
   return (
     <FollowingsListBox>
       <FollowingsImageNameBox>
         <ProfileImageBox>
-          <ProfileImage />
+          <ProfileImage imageUrl={following.image} />
         </ProfileImageBox>
-        <FollowingNameSpan>Diana</FollowingNameSpan>
+        <FollowingNameSpan>{following.name}</FollowingNameSpan>
       </FollowingsImageNameBox>
-      <Button btnColor="grey" btnSize="small">
+      <Button btnColor="grey" btnSize="small" onClick={handleFollowsClick}>
         언팔로우
       </Button>
     </FollowingsListBox>

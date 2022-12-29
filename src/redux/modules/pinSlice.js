@@ -12,8 +12,10 @@ const initialState = {
 // 현재 핀 목록 조회
 export const __getPinList = createAsyncThunk('getPinList', async (payload, thunkAPI) => {
   try {
-    const { data } = await payload.api();
-    return thunkAPI.fulfillWithValue(data.pins);
+    const response = await payload.api();
+
+    // data를 못 받아와서 property 값을 받아올수 있도록 수정했습니다.
+    return thunkAPI.fulfillWithValue(response);
   } catch (err) {
     return thunkAPI.rejectWithValue(err);
   }
@@ -22,7 +24,8 @@ export const __getPinList = createAsyncThunk('getPinList', async (payload, thunk
 export const __getPinDetailById = createAsyncThunk('getPinDetailById', async (payload, thunkAPI) => {
   try {
     const { data } = await pinApi.getById(payload.id);
-    return thunkAPI.fulfillWithValue(data.pin);
+    // data를 못 받아와서 property 값을 받아올수 있도록 수정했습니다
+    return thunkAPI.fulfillWithValue(data.data);
   } catch (err) {
     return thunkAPI.rejectWithValue(err);
   }

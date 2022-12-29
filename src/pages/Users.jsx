@@ -1,13 +1,37 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
-import UserProfileSection from '../components/users/userProfileSection/UserProfileSection';
 import UserPinCardsSection from '../components/users/userPinCardsSection/UserPinCardsSection';
+import UserProfileSection from '../components/users/userProfileSection/UserProfileSection';
+import { __getPinsMadeByUser } from '../redux/modules/userSlice';
+import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import userApi from '../apis/userApi';
 
 const Users = () => {
+  const dispatch = useDispatch();
+  const params = useParams().id;
+
+  const [currentUser, setCurrentUser] = useState();
+
+  useEffect(() => {
+    dispatch(__getPinsMadeByUser({ userId: params }));
+    userApi.getUserInfo(params).then((res) => setCurrentUser(res.data.data));
+  }, [dispatch]);
+
+  if (!currentUser) {
+    return <div>...loading</div>;
+  }
+
   return (
     <div>
-      <UserProfileSection />
-      <UserPinCardsSection />
+      <UserProfileSection
+        profileImage={currentUser.image}
+        name={currentUser.name}
+        userName={currentUser.username}
+        userId={currentUser.userId}
+        key={currentUser.userId}
+      />
+      <UserPinCardsSection userId={currentUser.userId} />
     </div>
   );
 };

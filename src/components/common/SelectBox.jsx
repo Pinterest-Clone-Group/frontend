@@ -17,6 +17,7 @@ const Wrapper = styled.div`
   display: ${(props) => (props.visible ? 'block' : 'none')};
   position: relative;
   height: 0;
+  margin-left: -9px;
 `;
 
 const Box = styled.div`

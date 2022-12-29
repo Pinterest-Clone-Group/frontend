@@ -1,21 +1,71 @@
+import { useDispatch, useSelector } from 'react-redux';
+
 import Button from '../common/Button';
 import { Colors } from '../../styles';
 import Icon from '../common/icons/Icon';
 import IconButton from '../common/IconButton';
+import PinUpdateModal from './pinUpdateModal/PinUpdateModal';
 import ProfileImage from '../common/ProfileImage';
+import { __getLikedPins } from '../../redux/modules/userSlice';
+import pinApi from '../../apis/pinApi';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router';
+import { useState } from 'react';
 
-const PinCard = ({ id, imageUrl, profileUrl, nickname, link }) => {
+const PinCard = ({
+  id,
+  title,
+  content,
+  imageUrl,
+  profileUrl,
+  nickname,
+  link,
+  hasWriterInfo = true,
+  isUpdatable = false,
+}) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [updateModalVisible, setUpdateModalVisible] = useState(false);
+  const { likedPins, userInfo } = useSelector((state) => state.userSlice);
+  const handleNavigateDetailPageClick = () => {
+    if (!updateModalVisible) {
+      navigate('/pins/' + id);
+    }
+  };
+  const handlePutPinLikeClick = (e) => {
+    e.stopPropagation();
+    pinApi.putLike(id).then(() => {
+      dispatch(__getLikedPins({ userId: userInfo?.userId }));
+    });
+  };
 
   return (
     <>
-      <PinCardLayout onClick={() => navigate('/pins/' + id)}>
+      <PinCardLayout onClick={handleNavigateDetailPageClick}>
         <PinCardShadow>
-          <Button btnColor="brand" style={{ position: 'absolute', right: '11px', top: '11px' }}>
-            저장
-          </Button>
+          <>
+            {likedPins && (
+              <>
+                {likedPins.some((pin) => pin.pinId === parseInt(id)) ? (
+                  <Button
+                    btnColor="grey"
+                    style={{ position: 'absolute', right: '11px', top: '11px' }}
+                    onClick={handlePutPinLikeClick}
+                  >
+                    저장됨
+                  </Button>
+                ) : (
+                  <Button
+                    btnColor="brand"
+                    style={{ position: 'absolute', right: '11px', top: '11px' }}
+                    onClick={handlePutPinLikeClick}
+                  >
+                    저장
+                  </Button>
+                )}
+              </>
+            )}
+          </>
           {link && (
             <PinLink
               icon={
@@ -26,13 +76,40 @@ const PinCard = ({ id, imageUrl, profileUrl, nickname, link }) => {
               }
             />
           )}
-          <IconButtonLayout icon={<Icon.Download />} />
+          <DownloadButtonLayout icon={<Icon.Download width={20} height={20} />} />
+          {isUpdatable && (
+            <>
+              <ModifyButtonLayout
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setUpdateModalVisible(true);
+                }}
+                icon={<Icon.Write />}
+              />
+              {updateModalVisible && (
+                <PinUpdateModal
+                  visible={updateModalVisible}
+                  onClose={() => {
+                    setUpdateModalVisible(false);
+                  }}
+                  pinTitle={title}
+                  pinContent={content}
+                  pinImage={imageUrl}
+                  pinId={id}
+                />
+              )}
+            </>
+          )}
         </PinCardShadow>
         <img src={imageUrl} />
       </PinCardLayout>
       <PinCardWriterBox>
-        <ProfileImage imageUrl={profileUrl} />
-        <p style={{ marginBottom: '5px' }}>{nickname}</p>
+        {hasWriterInfo && (
+          <>
+            <ProfileImage imageUrl={profileUrl} />
+            <p style={{ marginBottom: '5px' }}>{nickname}</p>
+          </>
+        )}
       </PinCardWriterBox>
     </>
   );
@@ -73,9 +150,19 @@ const PinCardWriterBox = styled.div`
   margin-bottom: 20px;
 `;
 
-const IconButtonLayout = styled(IconButton)`
+const DownloadButtonLayout = styled(IconButton)`
   position: absolute;
   right: 12px;
+  bottom: 14px;
+  background-color: ${Colors.iconHover};
+  :hover {
+    background-color: ${Colors.darkgrey};
+  }
+`;
+
+const ModifyButtonLayout = styled(IconButton)`
+  position: absolute;
+  right: 56px;
   bottom: 14px;
   background-color: ${Colors.iconHover};
   :hover {

@@ -7,7 +7,7 @@ const authInstance = axios.create({ baseURL: BASE_URL });
 
 authInstance.interceptors.request.use((config) => {
   config.headers = {
-    Authorization: `Bearer%${localStorage.getItem('accessToken')}`,
+    Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
   };
 
   return config;

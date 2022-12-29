@@ -1,5 +1,6 @@
 import { Colors } from '../../styles';
 import IconButton from '../common/IconButton';
+import { resizeExceedFile } from '../../utils/fileResizeHandler';
 import styled from 'styled-components';
 import { useRef } from 'react';
 
@@ -23,8 +24,18 @@ const PinImageUploader = ({ image, setImage, setImageFile }) => {
     setImage(undefined);
   };
 
-  const handleUploadedImageChange = ({ target }) => {
-    const uploadedFile = target?.files?.[0];
+  const handleUploadedImageChange = async ({ target }) => {
+    let uploadedFile = target?.files?.[0];
+    if (uploadedFile.type.indexOf('image/') === -1) {
+      alert('이미지를 첨부해주세요!');
+      return;
+    }
+    const imageSrc = URL.createObjectURL(uploadedFile);
+    setImage(imageSrc);
+    if (uploadedFile.size / (1024 * 1024) >= 4.9) {
+      const result = await resizeExceedFile(uploadedFile);
+      uploadedFile = result;
+    }
     setImageFile(uploadedFile);
     URL.revokeObjectURL(uploadedFile);
     if (!uploadedFile) {
@@ -32,8 +43,6 @@ const PinImageUploader = ({ image, setImage, setImageFile }) => {
     }
     const formData = new FormData();
     formData.append('image', uploadedFile);
-    const imageSrc = URL.createObjectURL(uploadedFile);
-    setImage(imageSrc);
   };
 
   return (
@@ -89,7 +98,7 @@ const PinImageUploader = ({ image, setImage, setImageFile }) => {
         )}
         {/* TODO: 등록 이미지 미리보기, 등록된 이미지 삭제, 서버에 업로드 구현 */}
         <div>클릭하여 이미지 업로드</div>
-        <p>권장사항: 10MB미만의 JPEG 파일</p>
+        <p>제한사항: 5MB미만의 JPEG 파일</p>
       </ImageUploadBox>
     </div>
   );

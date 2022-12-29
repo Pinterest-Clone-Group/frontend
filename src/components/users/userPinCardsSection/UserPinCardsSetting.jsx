@@ -3,8 +3,11 @@ import React from 'react';
 import styled from 'styled-components';
 import Icon from '../../common/icons/Icon';
 import { Colors } from '../../../styles';
+import { useNavigate } from 'react-router-dom';
 
 const UserPinCardsSetting = () => {
+  const navigate = useNavigate();
+
   return (
     <UserPinCardsSettingLayout>
       <UserPinCardsSettingBox>
@@ -13,7 +16,7 @@ const UserPinCardsSetting = () => {
         </SettingButton>
       </UserPinCardsSettingBox>
       <UserPinCardsSettingBox>
-        <SettingButton>
+        <SettingButton onClick={() => navigate(`/pin-builder`)}>
           <Icon.Plus />
         </SettingButton>
       </UserPinCardsSettingBox>

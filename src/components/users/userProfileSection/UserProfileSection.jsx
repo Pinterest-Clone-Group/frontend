@@ -7,12 +7,14 @@ import UserProfileEdit from './UserProfileEdit';
 import styled from 'styled-components';
 import { Colors } from '../../../styles';
 
-const UserProfileSection = () => {
+// TODO: following 기능 구현
+// TODO: 프로필 수정 기능
+const UserProfileSection = ({ profileImage, name, userName }) => {
   return (
     <UserProfileLayout>
-      <ProfileImage size={120} />
-      <UserNameBox>태근 박</UserNameBox>
-      <UserEmail>ptg0811@gmail.com</UserEmail>
+      <ProfileImage size={120} imageUrl={profileImage} />
+      <UserNameBox>{name}</UserNameBox>
+      <UserEmail>@{userName}</UserEmail>
       <FollowingsModal />
       <UserProfileEdit />
     </UserProfileLayout>

@@ -8,7 +8,7 @@ const ParentCommenterInfo = ({ parentCommentId, commentId }) => {
   }
   return (
     <ParentCommenterInfoLayout>
-      {<span>@{comments?.find((comment) => comment.commentId === parentCommentId)?.name}&nbsp;</span>}
+      {<span>{'@' + comments?.find((comment) => comment.commentId === parentCommentId)?.name}&nbsp;</span>}
     </ParentCommenterInfoLayout>
   );
 };
