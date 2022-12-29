@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import LoginFormBox from './LoginFormBox';
 import LoginOauthButtonSetBox from './LoginOauthButtonSetBox';
-import LoginLowLineTextBox from './LoginLowLineTextBox';
+// import LoginLowLineTextBox from './LoginLowLineTextBox';
 
 import styled from 'styled-components';
 import Button from '../../common/Button';
@@ -26,7 +26,7 @@ const LoginModalButton = (args) => {
           <LoginFormBox />
           <span>또는</span>
           <LoginOauthButtonSetBox />
-          <LoginLowLineTextBox />
+          {/* <LoginLowLineTextBox /> */}
         </LoginLayout>
       </Modal>
     </div>

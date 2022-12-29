@@ -2,11 +2,10 @@ import Button from '../common/Button';
 import ProfileImage from '../common/ProfileImage';
 import styled from 'styled-components';
 
-import userApi from '../../apis/userApi';
-import { __getFollowingUsers } from '../../redux/modules/userSlice';
+import { __getFollowingUsers, __updateFollows } from '../../redux/modules/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
-
+import { useEffect } from 'react';
 
 const PinWriter = ({ pin }) => {
   const dispatch = useDispatch();
@@ -14,10 +13,12 @@ const PinWriter = ({ pin }) => {
 
   const { followings, userInfo } = useSelector((state) => state.userSlice);
 
+  useEffect(() => {
+    dispatch(__getFollowingUsers({ userId: userInfo.userId }));
+  }, []);
+
   const handleFollowsClick = () => {
-    userApi.updateFollows(pin?.userId).then(() => {
-      dispatch(__getFollowingUsers({ userId: userInfo.userId }));
-    });
+    dispatch(__updateFollows(pin?.userId));
   };
 
   return (
@@ -31,7 +32,6 @@ const PinWriter = ({ pin }) => {
             {pin.name}
           </WriterParagraph>
           <p style={{ opacity: 0.7 }}>팔로워 {followings.length}명</p>
-
         </WriterInfoBox>
       </WriterBox>
       {userInfo.userId !== pin.userId ? (

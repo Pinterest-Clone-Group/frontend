@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import SignupFormBox from './SignupFormBox';
 import SignupOauthButtonSetBox from './SignupOauthButtonSetBox';
-import SignupLowLineTextBox from './SignupLowLineTextBox';
+// import SignupLowLineTextBox from './SignupLowLineTextBox';
 
 import styled from 'styled-components';
 import Button from '../../common/Button';
@@ -27,7 +27,7 @@ const SignupModalButton = (args) => {
           <SignupFormBox />
           <span>또는</span>
           <SignupOauthButtonSetBox />
-          <SignupLowLineTextBox />
+          {/* <SignupLowLineTextBox /> */}
         </SignupLayout>
       </Modal>
     </div>

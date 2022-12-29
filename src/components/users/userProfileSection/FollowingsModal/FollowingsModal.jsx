@@ -11,11 +11,9 @@ const FollowingsModal = (args) => {
 
   const { followings, userInfo } = useSelector((state) => state.userSlice);
 
-  const followingNumber = followings.length;
-
   return (
     <div>
-      <FollowingButton onClick={() => setVisible(true)}>팔로잉 {followingNumber}명</FollowingButton>
+      <FollowingButton onClick={() => setVisible(true)}>팔로잉 {followings.length}명</FollowingButton>
       <Modal visible={visible} width="400" onClose={() => setVisible(false)} {...args}>
         <FollowingsModalLayout followings={followings} userInfo={userInfo} />
       </Modal>

@@ -7,16 +7,14 @@ import UserProfileEdit from './UserProfileEdit';
 import styled from 'styled-components';
 import { Colors } from '../../../styles';
 
-// TODO: following 기능 구현
-// TODO: 프로필 수정 기능
-const UserProfileSection = ({ profileImage, name, userName }) => {
+const UserProfileSection = ({ profileImage, name, userName, followings, loginUserId }) => {
   return (
     <UserProfileLayout>
       <ProfileImage size={120} imageUrl={profileImage} />
       <UserNameBox>{name}</UserNameBox>
       <UserEmail>@{userName}</UserEmail>
       <FollowingsModal />
-      <UserProfileEdit />
+      <UserProfileEdit followings={followings} loginUserId={loginUserId} />
     </UserProfileLayout>
   );
 };

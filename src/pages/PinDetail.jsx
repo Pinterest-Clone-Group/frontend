@@ -30,7 +30,7 @@ const PinDetail = () => {
   };
   return (
     <>
-      {pin && likedPins && (
+      {pin && likedPins && userInfo && (
         <PinDetailLayout>
           <DetailsBox>
             <DetailsImageBox>

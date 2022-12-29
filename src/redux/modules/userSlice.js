@@ -86,6 +86,21 @@ export const __getLikedPins = createAsyncThunk('getLikedPins', async (payload, t
     return thunkAPI.rejectWithValue(err);
   }
 });
+
+// 팔로우 언팔로우
+export const __updateFollows = createAsyncThunk('__updateFollows', async (payload, thunkAPI) => {
+  try {
+    const response = await userApi.updateFollows(payload);
+    console.log(payload);
+
+    console.log(response);
+    return thunkAPI.fulfillWithValue(response.data);
+  } catch (error) {
+    const { errorMessage } = error.response.data;
+    alert(errorMessage);
+    return thunkAPI.rejectWithValue(error);
+  }
+});
 // 회원이 팔로우한 유저 조회
 export const __getFollowingUsers = createAsyncThunk('getFollowingUsers', async (payload, thunkAPI) => {
   try {
