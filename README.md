@@ -10,10 +10,10 @@
 
 ## 실행화면 및 배포주소 (최종 배포 후 작성)
 
-![핀터레스트1]](https://user-images.githubusercontent.com/117638805/209068474-9b144b60-f663-4468-82b6-15db91979e83.png)
-![핀터레스트2](https://user-images.githubusercontent.com/117638805/209068478-0fb49eea-bd9b-4891-9ad8-955ce9b09223.png)
-![핀터레스트3](https://user-images.githubusercontent.com/117638805/209068471-3828803b-1ef3-4821-aaeb-a1dda1b93a9a.png)
-https://mukstagram.vercel.app/
+![핀터레스트1]](src/assets/images/screenshot 1.png)
+![핀터레스트2](src/assets/images/screenshot 2.png)
+![핀터레스트3](src/assets/images/screenshot 3.png)
+https://frontend1-bay.vercel.app/
 
 ---
 
@@ -28,34 +28,24 @@ https://mukstagram.vercel.app/
 ---
 
 - 발생
+  마이페이지에 접속했을때 Uncaught TypeError: Cannot read property
 
 - 원인
+  회원 정보를 로드되기 전에 렌더링이 되면서 에러가 나는 문제
 
 - 해결
+  회원정보가 로드되지 않으면 return 되도록하는 코드를 추가하여 렌더링을 지연시킴
 
 ---
 
 - 발생
+  화면이 로드되면서 Uncaught Error: Maximum update depth exceeded.
 
 - 원인
+  onClick event에 화살표 함수를 포함하지 않아 렌더링과 동시에 함수가 작동하여 발생한 문제
 
 - 해결
-
----
-
-- 발생
-
-- 원인
-
-- 해결
-
----
-
-- 발생
-
-- 원인
-
-- 해결
+  화살표 함수를 사용해서 에러가 나오지 않았다.
 
 ---
 

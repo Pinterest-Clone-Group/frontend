@@ -38,6 +38,7 @@ const FollowingsListBox = styled.div`
   align-items: center;
   box-sizing: border-box;
   width: 100%;
+  margin: 10px 0px;
 `;
 
 const FollowingsImageNameBox = styled.div`
