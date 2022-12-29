@@ -6,6 +6,7 @@ import PinCard from '../components/pin/PinCard';
 import { __getPinList } from '../redux/modules/pinSlice';
 import pinApi from '../apis/pinApi';
 import styled from 'styled-components';
+import { useLocation } from 'react-router';
 
 export function getItems(nextGroupKey, count) {
   const nextItems = [];
@@ -34,13 +35,18 @@ export const Item = ({ pin, hasWriter, isUpdatable = false }) => (
 // TODO: 이미지 lazyloading 고려
 export function App() {
   const { pins, isLoading, error } = useSelector((state) => state.pinSlice);
-  console.log(pins, isLoading, error);
+  const location = useLocation();
+
   const [travelLastItem, setTravelLastItem] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
+    if (location.search) {
+      dispatch(__getPinList({ api: () => pinApi.getAllBySearchQuery(location.search) }));
+      return;
+    }
     dispatch(__getPinList({ api: pinApi.getAll }));
-  }, []);
+  }, [location]);
   const [items, setItems] = useState();
   useEffect(() => {
     if (pins) {
@@ -56,7 +62,7 @@ export function App() {
   }
   return (
     <PinsLayout>
-      {items && (
+      {items && pins && (
         <MasonryInfiniteGrid
           gap={3}
           onRequestAppend={(e) => {

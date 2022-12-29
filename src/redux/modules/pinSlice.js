@@ -12,10 +12,10 @@ const initialState = {
 // 현재 핀 목록 조회
 export const __getPinList = createAsyncThunk('getPinList', async (payload, thunkAPI) => {
   try {
-    const { data } = await payload.api();
+    const response = await payload.api();
 
     // data를 못 받아와서 property 값을 받아올수 있도록 수정했습니다.
-    return thunkAPI.fulfillWithValue(data.data);
+    return thunkAPI.fulfillWithValue(response);
   } catch (err) {
     return thunkAPI.rejectWithValue(err);
   }
