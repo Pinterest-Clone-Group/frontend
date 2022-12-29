@@ -7,6 +7,7 @@ const initialState = {
   likedPins: [],
   pinsArrs: [],
   response: {},
+  message: '',
   isLoading: false,
   error: null,
   isLogined: localStorage.getItem('isLogined'),
@@ -135,6 +136,18 @@ export const userSlice = createSlice({
       state.userInfo = action.payload;
     },
     [__getUserInfo.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
+    },
+    // 사용자 정보 수정
+    [__updateUserInfo.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [__updateUserInfo.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.message = action.payload;
+    },
+    [__updateUserInfo.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
     },

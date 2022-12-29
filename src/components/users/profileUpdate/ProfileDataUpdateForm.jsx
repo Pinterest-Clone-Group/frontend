@@ -51,6 +51,7 @@ const ProfileDataUpdateForm = ({ userId, name, userName }) => {
   };
 
   const handelProfileUpdateSubmit = () => {
+    console.log(userId, profileName, profileUserName);
     dispatch(__updateUserInfo({ userId: userId, name: profileName, username: profileUserName }));
   };
 

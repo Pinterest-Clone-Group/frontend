@@ -18,7 +18,7 @@ function Layout({ children }) {
       // TODO: headers 로 올지 data로 올지 확인
       (async () => {
         try {
-          const response = await userApi.getKakaoLogin(code);
+          const response = await userApi.getKakaoSignup(code);
           localStorage.setItem('accesstoken', response.data.accesstoken);
           localStorage.setItem('refreshtoken', response.data.refreshtoken);
 
