@@ -18,6 +18,10 @@ const userApi = {
   getPinsMadeByUser: (userId) => authInstance.get(USER_API + '/' + userId + '/pins'),
   // 회원이 즐겨찾기한 핀 목록
   getLikedPinsByUserId: (userId) => authInstance.get(USER_API + '/' + userId + '/likes'),
+  // 팔로우 및 언팔로우
+  updateFollows: (userId) => authInstance.put(USER_API + '/' + userId + '/follows'),
+  // 팔로우 한 사용자 조회
+  getFollowingUsers: (userId) => authInstance.get(USER_API + '/' + userId + '/follows'),
 };
 
 export default userApi;

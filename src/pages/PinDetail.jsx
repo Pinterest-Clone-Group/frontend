@@ -55,7 +55,7 @@ const PinDetail = () => {
               <DetailMainTextBox>
                 <h1>{pin.title}</h1>
                 <p>{pin.content}</p>
-                <PinWriter pin={pin} />
+                <PinWriter pin={pin} userId={userInfo.userId} />
                 <CommentList pinId={pin.pinId} />
               </DetailMainTextBox>
             </DetailsContentsBox>

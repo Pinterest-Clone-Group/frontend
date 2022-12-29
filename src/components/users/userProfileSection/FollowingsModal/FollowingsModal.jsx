@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import FollowingsModalLayout from './FollowingsModalLayout';
 
@@ -8,13 +9,15 @@ import Modal from '../../../common/Modal';
 const FollowingsModal = (args) => {
   const [visible, setVisible] = useState(false);
 
-  const followingNumber = 1;
+  const { followings, userInfo } = useSelector((state) => state.userSlice);
+
+  const followingNumber = followings.length;
 
   return (
     <div>
       <FollowingButton onClick={() => setVisible(true)}>팔로잉 {followingNumber}명</FollowingButton>
       <Modal visible={visible} width="400" onClose={() => setVisible(false)} {...args}>
-        <FollowingsModalLayout />
+        <FollowingsModalLayout followings={followings} userInfo={userInfo} />
       </Modal>
     </div>
   );
