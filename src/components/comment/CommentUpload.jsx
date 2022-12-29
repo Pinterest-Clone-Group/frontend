@@ -18,7 +18,7 @@ const CommentUpload = ({ pinId }) => {
     if (!comment) {
       return;
     }
-    commentApi.register({ pinId, comment }).then(() => {
+    commentApi.register({ pinId, comment, parentCommentId: null }).then(() => {
       setComment('');
       dispatch(__getCommentList({ pinId }));
     });

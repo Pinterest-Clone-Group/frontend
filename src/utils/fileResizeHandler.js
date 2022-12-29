@@ -17,3 +17,21 @@ export const resizeFile = async (file) => {
   }
   return modifiedFile && new File([modifiedFile], modifiedFile.name, { type: file.type });
 };
+
+export const resizeExceedFile = async (file) => {
+  let modifiedFile = null;
+  const options = {
+    maxSizeMB: 4,
+    maxWidthOrHeight: 1000,
+    alwaysKeepResolution: true,
+  };
+
+  try {
+    const compressedFile = await imageCompression(file, options);
+    modifiedFile = compressedFile;
+  } catch (error) {
+    modifiedFile = null;
+    console.log(error);
+  }
+  return modifiedFile && new File([modifiedFile], modifiedFile.name, { type: file.type });
+};

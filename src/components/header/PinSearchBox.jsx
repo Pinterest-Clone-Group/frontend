@@ -11,13 +11,14 @@ const PinSearchBox = () => {
   const navigate = useNavigate();
   const handleSubmitKeyPress = (e) => {
     if (e.charCode === 13 && searchKeyword) {
-      navigate('/pins?searchKeyword=' + searchKeyword);
+      navigate('/pins?search=' + searchKeyword);
+      setSearchKeyword('');
     }
   };
   return (
     <PinSearchBoxLayout>
       <CommentInputBox hasClickEffect={false} style={{ backgroundColor: Colors.grey }}>
-        <Icon.Search fill={'rgba(13,13,13,0.6)'} width={13} height={13} />
+        <Icon.Search fill={'#36313199'} width={13} height={13} />
         <CommentInput
           placeholder="핀 검색"
           value={searchKeyword}
