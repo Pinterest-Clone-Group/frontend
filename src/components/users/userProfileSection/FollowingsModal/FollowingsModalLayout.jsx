@@ -4,14 +4,18 @@ import FollowingsList from './FollowingsList';
 
 import styled from 'styled-components';
 
-const FollowingsModalLayout = () => {
+const FollowingsModalLayout = ({ followings, userInfo }) => {
+  const handleFollowingListup = followings.map((following) => (
+    <FollowingsList following={following} userInfo={userInfo} key={following.userId} />
+  ));
+
   return (
     <div>
       <FollowingsLayout>
         <FollowingsTextBox>
           <FollwingsTitleBox>팔로잉</FollwingsTitleBox>
         </FollowingsTextBox>
-        <FollowingsList />
+        {handleFollowingListup}
       </FollowingsLayout>
     </div>
   );

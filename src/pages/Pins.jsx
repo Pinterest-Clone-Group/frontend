@@ -35,6 +35,7 @@ export const Item = ({ pin, hasWriter, isUpdatable = false }) => (
 // TODO: 이미지 lazyloading 고려
 export function App() {
   const { pins, isLoading, error } = useSelector((state) => state.pinSlice);
+
   const location = useLocation();
 
   const [travelLastItem, setTravelLastItem] = useState(false);

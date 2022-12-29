@@ -15,8 +15,8 @@ const ProfileDataUpdateForm = ({ userId, name, userName }) => {
   // console.log(userId, name, userName);
   const dispatch = useDispatch();
   // 아이디, 비밀번호, 이름 입력
-  const [profileName, setName] = useState('');
-  const [profileUserName, setUserName] = useState('');
+  const [profileName, setName] = useState(name);
+  const [profileUserName, setUserName] = useState(userName);
 
   //오류메시지 상태저장
   const [nameMessage, setNameMessage] = useState('');
@@ -51,7 +51,6 @@ const ProfileDataUpdateForm = ({ userId, name, userName }) => {
   };
 
   const handelProfileUpdateSubmit = () => {
-    console.log(userId, profileName, profileUserName);
     dispatch(__updateUserInfo({ userId: userId, name: profileName, username: profileUserName }));
   };
 

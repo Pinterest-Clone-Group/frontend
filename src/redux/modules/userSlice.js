@@ -5,6 +5,7 @@ import userApi from '../../apis/userApi';
 const initialState = {
   userInfo: null,
   likedPins: [],
+  followings: [],
   pinsArrs: [],
   response: {},
   message: '',
@@ -18,10 +19,10 @@ export const __signup = createAsyncThunk('signup', async (payload, thunkAPI) => 
   try {
     const response = await userApi.signup(payload);
     alert('회원가입 성공! 로그인 해주시기 바랍니다.');
-    window.location.reload();
+    location.reload();
     return thunkAPI.fulfillWithValue(response.data);
   } catch (error) {
-    const { errorMessage } = error.response.data;
+    const { errorMessage } = error;
     alert(errorMessage);
     return thunkAPI.rejectWithValue(error);
   }
@@ -34,10 +35,10 @@ export const __login = createAsyncThunk('login', async (payload, thunkAPI) => {
     localStorage.setItem('accessToken', response.data.accessToken.split(' ')[1]);
     localStorage.setItem('refreshToken', response.data.refreshToken);
     alert('로그인 성공!');
-    window.location.reload();
+    location.reload();
     return thunkAPI.fulfillWithValue(response.data);
   } catch (error) {
-    const { errorMessage } = error.response.data;
+    const { errorMessage } = error;
     alert(errorMessage);
     return thunkAPI.rejectWithValue(error);
   }
@@ -58,7 +59,6 @@ export const __updateUserInfo = createAsyncThunk('updateUserInfo', async (payloa
   try {
     const response = await userApi.updateUserInfo(payload);
     alert('회원 정보 수정 성공!');
-    window.location.reload();
     return thunkAPI.fulfillWithValue(response.data);
   } catch (error) {
     const { errorMessage } = error.response.data;
@@ -81,6 +81,16 @@ export const __getPinsMadeByUser = createAsyncThunk('getPinsMadeByUser', async (
 export const __getLikedPins = createAsyncThunk('getLikedPins', async (payload, thunkAPI) => {
   try {
     const { data } = await userApi.getLikedPinsByUserId(payload.userId);
+    return thunkAPI.fulfillWithValue(data.data);
+  } catch (err) {
+    return thunkAPI.rejectWithValue(err);
+  }
+});
+// 회원이 팔로우한 유저 조회
+export const __getFollowingUsers = createAsyncThunk('getFollowingUsers', async (payload, thunkAPI) => {
+  try {
+    const { data } = await userApi.getFollowingUsers(payload.userId);
+    console.log(data);
     return thunkAPI.fulfillWithValue(data.data);
   } catch (err) {
     return thunkAPI.rejectWithValue(err);
@@ -167,6 +177,18 @@ export const userSlice = createSlice({
     [__getLikedPins.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.likedPins = action.payload;
+    },
+    // 팔로우한 사용자 조회
+    [__getFollowingUsers.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [__getFollowingUsers.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.followings = action.payload;
+    },
+    [__getFollowingUsers.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
     },
   },
 });

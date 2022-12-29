@@ -1,11 +1,24 @@
 import Button from '../common/Button';
 import ProfileImage from '../common/ProfileImage';
 import styled from 'styled-components';
+
+import userApi from '../../apis/userApi';
+import { __getFollowingUsers } from '../../redux/modules/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 
-// TODO: 현재 이용자의 글쓴이 팔로우 상태에 따라 팔로우/언팔로우  버튼이 활성화된다.
+
 const PinWriter = ({ pin }) => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const { followings, userInfo } = useSelector((state) => state.userSlice);
+
+  const handleFollowsClick = () => {
+    userApi.updateFollows(pin?.userId).then(() => {
+      dispatch(__getFollowingUsers({ userId: userInfo.userId }));
+    });
+  };
 
   return (
     <PinWriterLayout>
@@ -17,12 +30,23 @@ const PinWriter = ({ pin }) => {
           <WriterParagraph style={{ fontWeight: '600' }} onClick={() => navigate('/users/' + pin.userId)}>
             {pin.name}
           </WriterParagraph>
-          <p style={{ opacity: 0.7 }}>팔로워 1,555명</p>
+          <p style={{ opacity: 0.7 }}>팔로워 {followings.length}명</p>
+
         </WriterInfoBox>
       </WriterBox>
-      <FollwerButtonBox>
-        <Button btnColor="grey">팔로우</Button>
-      </FollwerButtonBox>
+      {userInfo.userId !== pin.userId ? (
+        <FollwerButtonBox>
+          {followings.some((following) => following.userId === pin.userId) ? (
+            <Button btnColor="grey" onClick={handleFollowsClick}>
+              언팔로우
+            </Button>
+          ) : (
+            <Button btnColor="brand" onClick={handleFollowsClick}>
+              팔로우
+            </Button>
+          )}
+        </FollwerButtonBox>
+      ) : null}
     </PinWriterLayout>
   );
 };
