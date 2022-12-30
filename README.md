@@ -2,13 +2,17 @@
 
 # 1조 Pinterest-Clone
 
-- 프로젝트 소개 : 이미지 위주의 UI와 CRUD 기능에 충실한 핀터레스트를 클론코딩해보았습니다.
+- 프로젝트 소개 : 이미지 위주의 UI와 CRUD 기능에 충실한 핀터레스트 클론코딩
 
 - frontend : React, backend : NodeJS
 
+- [시연영상](https://www.youtube.com/watch?v=491qUXHxcKI&t=44s)
+
+- [위키](https://github.com/Pinterest-Clone-Group/frontend/wiki)
+
 ---
 
-## 실행화면 및 배포주소 (최종 배포 후 작성)
+## 실행화면
 
 <img width="1552" alt="screenshot 1" src="https://user-images.githubusercontent.com/116893141/209961095-3208b2cc-52de-4075-9507-b45d8068345e.png">
 <img width="1552" alt="screenshot 2" src="https://user-images.githubusercontent.com/116893141/209961178-ab093eab-2079-4dee-b78f-5541e85d41b6.png">
@@ -19,6 +23,30 @@
 ## 사용 패키지
 
 - react, @reduxjs/toolkit, axios, react-dom, react-redux, react-router-dom, react-scripts, styled-components, react-infinitegrid, browser-image-compression, jwt-decode, storybook
+
+---
+
+## 주요 기능
+
+**회원**
+
+- 기본 로그인/회원가입, 카카오 oauth로그인, 회원정보 수정
+
+**핀**
+
+- 핀을 저장, 수정, 조회, 삭제할 수 있다.
+
+**댓글**
+
+- 핀에 대한 댓글 목록 조회, 등록, 수정, 삭제할 수 있다.
+
+**좋아요**
+
+- 좋아요를 등록, 취소할 수 있다.
+
+**팔로우**
+
+- 팔로우 목록 조회, 등록, 취소할 수 있다.
 
 ---
 
@@ -45,41 +73,5 @@
 
 - 해결
   화살표 함수를 사용해서 에러가 나오지 않았다.
-
----
-
-- 발생
-
-- 원인
-
-- 해결
-
----
-
-- 발생
-
-- 원인
-
-- 해결
-
----
-
-- 발생
-
-- 원인
-
-- 해결
-
----
-
-## 코드리뷰
-
-- 1번리뷰 :
-
-- 2번리뷰 :
-
-- 3번리뷰 :
-
-- 4번리뷰 :
 
 ---
